@@ -1,6 +1,7 @@
 package net.alshanex.equinox;
 
 import com.mojang.logging.LogUtils;
+import net.alshanex.equinox.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -45,6 +46,8 @@ public class EquinoxMod
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        ModItems.register(modEventBus);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -63,7 +66,12 @@ public class EquinoxMod
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        if(event.getTabKey() == CreativeModeTabs.COMBAT){
+            event.accept(ModItems.BLESSED_ORB);
+            event.accept(ModItems.CORRUPTED_ORB);
+            event.accept(ModItems.OBSCURE_ORB);
+            event.accept(ModItems.SOLAR_ORB);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
