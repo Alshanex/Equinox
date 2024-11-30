@@ -75,7 +75,10 @@ public class EquinoxMod
             event.accept(ModItems.BLESSED_ORB);
             event.accept(ModItems.CORRUPTED_ORB);
             event.accept(ModItems.OBSCURE_ORB);
-            event.accept(ModItems.SOLAR_ORB);
+            event.accept(ModItems.PLASMATIC_ORB);
+        }
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
+            event.accept(ModItems.EMPTY_ORB);
         }
     }
 

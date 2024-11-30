@@ -22,16 +22,22 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class SolarOrbItem extends UniqueOrb {
-    public SolarOrbItem(){
+public class PlasmaticOrbItem extends UniqueOrb {
+    public PlasmaticOrbItem(){
         super(SpellRarity.LEGENDARY, SpellDataRegistryHolder.of(
                 //new SpellDataRegistryHolder(ExampleSpellRegistry.ICE_CHAMBER, 5),
                 //new SpellDataRegistryHolder(ExampleSpellRegistry.ICE_AGE, 10)
         ), 0, () -> {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(AttributeRegistry.FIRE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .10, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.FIRE_MAGIC_RESIST.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .10, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.MAX_MANA.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", 100, AttributeModifier.Operation.ADDITION));
+            builder.put(AttributeRegistry.FIRE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.FIRE_MAGIC_RESIST.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ELDRITCH_MAGIC_RESIST.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.HOLY_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.EVOCATION_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.BLOOD_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.NATURE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ICE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ENDER_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         });
     }
@@ -45,6 +51,7 @@ public class SolarOrbItem extends UniqueOrb {
             int i = TooltipsUtils.indexOfComponent(lines, "tooltip.irons_spellbooks.spellbook_spell_count");
             lines.add(i < 0 ? lines.size() : i+1, Component.translatable("tooltip.irons_spellbooks.enhance_spell_level", spell.getDisplayName(MinecraftInstanceHelper.instance.player()).withStyle(spell.getSchoolType().getDisplayName().getStyle())).withStyle(ChatFormatting.YELLOW));
         }
+        lines.add(Component.translatable("tooltip.equinox.not_cast_eldritch_spells").withStyle(ChatFormatting.RED));
     }
 
     @Override
