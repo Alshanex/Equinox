@@ -1,9 +1,11 @@
 package net.alshanex.equinox;
 
 import com.mojang.logging.LogUtils;
+import net.alshanex.equinox.compat.Curios;
 import net.alshanex.equinox.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,6 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -54,6 +57,8 @@ public class EquinoxMod
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -79,6 +84,10 @@ public class EquinoxMod
     public void onServerStarting(ServerStartingEvent event)
     {
 
+    }
+
+    private void enqueueIMC(final InterModEnqueueEvent event) {
+        Curios.registerCurioSlot(Curios.ORB_SLOT, 1, false, new ResourceLocation("curios:slot/orb_slot"));
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

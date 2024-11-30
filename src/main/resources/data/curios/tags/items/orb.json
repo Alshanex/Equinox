@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "equinox:blessed_orb",
+    "equinox:corrupted_orb",
+    "equinox:obscure_orb",
+    "equinox:solar_orb"
+  ]
+}

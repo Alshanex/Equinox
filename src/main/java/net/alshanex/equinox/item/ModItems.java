@@ -11,6 +11,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Collection;
+
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, EquinoxMod.MODID);
@@ -24,4 +26,8 @@ public class ModItems {
     public static final RegistryObject<Item> BLESSED_ORB = ITEMS.register("blessed_orb", BlessedOrbItem::new);
     public static final RegistryObject<Item> SOLAR_ORB = ITEMS.register("solar_orb", SolarOrbItem::new);
     public static final RegistryObject<Item> OBSCURE_ORB = ITEMS.register("obscure_orb", ObscureOrbItem::new);
+
+    public static Collection<RegistryObject<Item>> getOrbItems() {
+        return ITEMS.getEntries();
+    }
 }
