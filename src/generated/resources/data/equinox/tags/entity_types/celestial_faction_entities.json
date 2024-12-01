@@ -4,11 +4,9 @@
     "minecraft:iron_golem",
     "minecraft:villager",
     "irons_spellbooks:priest",
-    {"id":"cataclysm:ancient_ancient_remnant","required":false},
-    {"id":"cataclysm:ancient_remnant","required":false},
-    {"id":"cataclysm:modern_remnant","required":false},
-    {"id":"cataclysm:koboleton","required":false},
-    {"id":"cataclysm:kobolediator","required":false},
-    {"id":"cataclysm:wadjet","required":false}
+    {
+      "id": "cataclysm:koboleton",
+      "required": false
+    }
   ]
 }

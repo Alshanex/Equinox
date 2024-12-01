@@ -5,7 +5,6 @@
     "minecraft:skeleton",
     "minecraft:skeleton_horse",
     "minecraft:stray",
-    "minecraft:wither",
     "minecraft:wither_skeleton",
     "minecraft:zoglin",
     "minecraft:zombie",
@@ -14,23 +13,59 @@
     "irons_spellbooks:necromancer",
     "irons_spellbooks:summoned_zombie",
     "irons_spellbooks:summoned_skeleton",
-    "irons_spellbooks:dead_king",
     "irons_spellbooks:catacombs_zombie",
     "irons_spellbooks:citadel_keeper",
-    {"id":"cataclysm:maledictus","required":false},
-    {"id":"cataclysm:draugr","required":false},
-    {"id":"cataclysm:royal_draugr","required":false},
-    {"id":"cataclysm:elite_draugr","required":false},
-    {"id":"cataclysm:aptrgangr","required":false},
-    {"id":"graveyard:skeleton_creeper","required":false},
-    {"id":"graveyard:acolyte","required":false},
-    {"id":"graveyard:reaper","required":false},
-    {"id":"graveyard:ghoul","required":false},
-    {"id":"graveyard:nightmare","required":false},
-    {"id":"graveyard:revenant","required":false},
-    {"id":"graveyard:lich","required":false},
-    {"id":"graveyard:wraith","required":false},
-    {"id":"graveyard:corrupted_pillager","required":false},
-    {"id":"graveyard:corrupted_vindicator","required":false}
+    {
+      "id": "cataclysm:draugr",
+      "required": false
+    },
+    {
+      "id": "cataclysm:royal_draugr",
+      "required": false
+    },
+    {
+      "id": "cataclysm:elite_draugr",
+      "required": false
+    },
+    {
+      "id": "graveyard:skeleton_creeper",
+      "required": false
+    },
+    {
+      "id": "graveyard:acolyte",
+      "required": false
+    },
+    {
+      "id": "graveyard:reaper",
+      "required": false
+    },
+    {
+      "id": "graveyard:ghoul",
+      "required": false
+    },
+    {
+      "id": "graveyard:nightmare",
+      "required": false
+    },
+    {
+      "id": "graveyard:revenant",
+      "required": false
+    },
+    {
+      "id": "graveyard:lich",
+      "required": false
+    },
+    {
+      "id": "graveyard:wraith",
+      "required": false
+    },
+    {
+      "id": "graveyard:corrupted_pillager",
+      "required": false
+    },
+    {
+      "id": "graveyard:corrupted_vindicator",
+      "required": false
+    }
   ]
 }

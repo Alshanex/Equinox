@@ -1,0 +1,14 @@
+{
+  "values": [
+    "minecraft:wither",
+    "irons_spellbooks:dead_king",
+    {
+      "id": "cataclysm:aptrgangr",
+      "required": false
+    },
+    {
+      "id": "cataclysm:maledictus",
+      "required": false
+    }
+  ]
+}

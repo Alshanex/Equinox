@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "cataclysm:ancient_ancient_remnant",
+      "required": false
+    },
+    {
+      "id": "cataclysm:ancient_remnant",
+      "required": false
+    },
+    {
+      "id": "cataclysm:modern_remnant",
+      "required": false
+    },
+    {
+      "id": "cataclysm:kobolediator",
+      "required": false
+    },
+    {
+      "id": "cataclysm:wadjet",
+      "required": false
+    }
+  ]
+}

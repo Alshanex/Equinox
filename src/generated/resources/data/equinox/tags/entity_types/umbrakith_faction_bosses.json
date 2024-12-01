@@ -1,0 +1,22 @@
+{
+  "values": [
+    "minecraft:elder_guardian",
+    "minecraft:warden",
+    {
+      "id": "cataclysm:coral_golem",
+      "required": false
+    },
+    {
+      "id": "cataclysm:coralssus",
+      "required": false
+    },
+    {
+      "id": "cataclysm:the_leviathan",
+      "required": false
+    },
+    {
+      "id": "cataclysm:the_baby_leviathan",
+      "required": false
+    }
+  ]
+}

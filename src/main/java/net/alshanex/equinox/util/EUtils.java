@@ -55,11 +55,14 @@ public class EUtils {
         return entityType == EntityType.SKELETON_HORSE || entityType == EntityType.SKELETON ||
                 entityType == EntityType.WITHER_SKELETON || entityType == EntityType.ZOMBIFIED_PIGLIN ||
                 entityType == EntityType.ZOMBIE || entityType == EntityType.DROWNED || entityType == EntityType.HUSK ||
-                entityType == EntityType.ZOMBIE_VILLAGER || entityType == EntityType.WITHER ||
-                entityType == EntityType.ZOGLIN || entityType == EntityType.STRAY || entityType == EntityRegistry.SUMMONED_SKELETON.get() ||
-                entityType == EntityRegistry.SUMMONED_ZOMBIE.get() || entityType == EntityRegistry.CATACOMBS_ZOMBIE.get() ||
-                entityType == EntityRegistry.NECROMANCER.get() || entityType == EntityRegistry.DEAD_KING.get() ||
+                entityType == EntityType.ZOMBIE_VILLAGER || entityType == EntityType.ZOGLIN || entityType == EntityType.STRAY ||
+                entityType == EntityRegistry.SUMMONED_SKELETON.get() || entityType == EntityRegistry.SUMMONED_ZOMBIE.get() ||
+                entityType == EntityRegistry.CATACOMBS_ZOMBIE.get() || entityType == EntityRegistry.NECROMANCER.get() ||
                 entityType == EntityRegistry.KEEPER.get();
+    }
+
+    public static boolean isFallenFactionBoss(EntityType entityType){
+        return entityType == EntityRegistry.DEAD_KING.get() || entityType == EntityType.WITHER;
     }
 
     public static boolean isCelestialFaction(EntityType entityType){
@@ -69,7 +72,11 @@ public class EUtils {
 
     public static boolean isUmbrakithFaction(EntityType entityType){
         return entityType == EntityType.WITCH || entityType == EntityType.SILVERFISH || entityType == EntityType.PHANTOM
-                || entityType == EntityType.WARDEN || entityType == EntityType.GUARDIAN || entityType == EntityType.ELDER_GUARDIAN;
+                || entityType == EntityType.GUARDIAN;
+    }
+
+    public static boolean isUmbrakithFactionBoss(EntityType entityType){
+        return entityType == EntityType.WARDEN || entityType == EntityType.ELDER_GUARDIAN;
     }
 
     public static boolean isSolarianFaction(EntityType entityType){
