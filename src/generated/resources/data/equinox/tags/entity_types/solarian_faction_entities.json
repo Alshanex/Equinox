@@ -1,0 +1,15 @@
+{
+  "values": [
+    "minecraft:blaze",
+    "minecraft:ghast",
+    "minecraft:magma_cube",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "irons_spellbooks:pyromancer",
+    "irons_spellbooks:apothecarist",
+    {"id":"cataclysm:netherite_monstrosity","required":false},
+    {"id":"cataclysm:ignis","required":false},
+    {"id":"cataclysm:ignited_revenant","required":false},
+    {"id":"cataclysm:ignited_berserker","required":false}
+  ]
+}
