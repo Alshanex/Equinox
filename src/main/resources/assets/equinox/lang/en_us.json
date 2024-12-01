@@ -2,5 +2,19 @@
   "tooltip.equinox.not_cast_blood_spells": "Can't cast blood school spells",
   "tooltip.equinox.not_cast_holy_spells": "Can't cast holy school spells",
   "tooltip.equinox.not_cast_fire_spells": "Can't cast fire school spells",
-  "tooltip.equinox.not_cast_eldritch_spells": "Can't cast eldritch school spells"
+  "tooltip.equinox.not_cast_eldritch_spells": "Can't cast eldritch school spells",
+  "tooltip.equinox.reject_blood_spells": "Seems like blood spells are rejecting your call",
+  "tooltip.equinox.reject_holy_spells": "Seems like holy spells are rejecting your call",
+  "tooltip.equinox.reject_fire_spells": "Seems like fire spells are rejecting your call",
+  "tooltip.equinox.reject_eldritch_spells": "Seems like eldritch spells are rejecting your call",
+  "tooltip.equinox.orb_rarity": "%s Orb",
+
+  "item.equinox.blessed_orb": "Blessed Orb",
+  "item.equinox.corrupted_orb": "Corrupted Orb",
+  "item.equinox.obscure_orb": "Obscure Orb",
+  "item.equinox.plasmatic_orb": "Plasmatic Orb",
+  "item.equinox.empty_orb": "Empty Orb",
+
+  "curios.identifier.orb": "Orb",
+  "curios.modifiers.orb": "When equipped as Orb:"
 }

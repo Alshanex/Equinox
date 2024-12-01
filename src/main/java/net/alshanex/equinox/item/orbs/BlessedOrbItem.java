@@ -28,15 +28,16 @@ public class BlessedOrbItem extends UniqueOrb {
         super(SpellRarity.LEGENDARY, SpellDataRegistryHolder.of(
                 new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 1)
         ), 0, () -> {
+            UUID randomUUID = UUID.randomUUID();
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(AttributeRegistry.HOLY_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.HOLY_MAGIC_RESIST.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.BLOOD_MAGIC_RESIST.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.ICE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.FIRE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.ELDRITCH_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.NATURE_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
-            builder.put(AttributeRegistry.ENDER_SPELL_POWER.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.HOLY_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.HOLY_MAGIC_RESIST.get(), new AttributeModifier(randomUUID, "Weapon modifier", .03, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.BLOOD_MAGIC_RESIST.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ICE_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.FIRE_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.25, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ELDRITCH_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.NATURE_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
+            builder.put(AttributeRegistry.ENDER_SPELL_POWER.get(), new AttributeModifier(randomUUID, "Weapon modifier", -.50, AttributeModifier.Operation.MULTIPLY_BASE));
             return builder.build();
         });
     }
