@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipe;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
 import net.alshanex.equinox.compat.Curios;
+import net.alshanex.equinox.event.ClientEvents;
 import net.alshanex.equinox.item.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -30,11 +31,13 @@ public class EquinoxMod
     // Define mod id in a common place for everything to reference
     public static final String MODID = "equinox";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public EquinoxMod()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        modEventBus.addListener(ClientEvents::onRegisterOverlays);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

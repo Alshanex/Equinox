@@ -4,12 +4,14 @@ import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.registries.EntityRegistry;
 import net.alshanex.equinox.compat.Curios;
+import net.alshanex.equinox.fame.SolarianFameProvider;
 import net.alshanex.equinox.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -25,6 +27,24 @@ public class EUtils {
                     return false;
                 }).orElse(false)
         ).orElse(false);
+    }
+
+    public static boolean hasItemInOrbSlotLocal(Player player, Item itemToCheck) {
+        return CuriosApi.getCuriosInventory(player).map(inventory ->
+                inventory.getStacksHandler(Curios.ORB_SLOT).map(stacksHandler -> {
+                    for (int i = 0; i < stacksHandler.getSlots(); i++) {
+                        if (stacksHandler.getStacks().getStackInSlot(i).is(itemToCheck)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }).orElse(false)
+        ).orElse(false);
+    }
+
+    public static boolean noItemInOrbSlot(Player player) {
+        return !(hasItemInOrbSlotLocal(player, ModItems.PLASMATIC_ORB.get()) || hasItemInOrbSlotLocal(player, ModItems.BLESSED_ORB.get())
+                || hasItemInOrbSlotLocal(player, ModItems.CORRUPTED_ORB.get()) || hasItemInOrbSlotLocal(player, ModItems.OBSCURE_ORB.get()));
     }
 
     public static boolean isSpellRejected(ServerPlayer player, SchoolType spellSchoolType){
