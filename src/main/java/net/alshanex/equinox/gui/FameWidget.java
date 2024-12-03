@@ -20,7 +20,7 @@ public class FameWidget extends AbstractWidget {
     int u = 0;
     private final int v, textureWidth, textureHeight;
     private final int subTextureWidth, subTextureHeight;
-    private final String text;
+    private String text;
     private int textColor;
 
     public FameWidget(int x, int y, ResourceLocation texture, int u, int v,
@@ -49,6 +49,7 @@ public class FameWidget extends AbstractWidget {
 
         guiGraphics.blit(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), u, v, subTextureWidth, subTextureHeight, textureWidth, textureHeight);
 
+        text = String.valueOf(currentFame);
         int textX = getX() + 2 * (subTextureWidth / 3);
         int textY = getY() + 5;
         guiGraphics.drawString(Minecraft.getInstance().font, text, textX, textY, textColor, false);

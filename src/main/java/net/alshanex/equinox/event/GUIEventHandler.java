@@ -25,11 +25,6 @@ public class GUIEventHandler {
     static final int subTextureWidth = 52;
     static final int subTextureHeight = 18;
 
-    int currentFame = 0;
-    int u = 0;
-    static final int v = 1;
-    int textColor = 0;
-
     @SubscribeEvent
     public void onInventoryGuiInit(ScreenEvent.Init.Post evt) {
         Screen screen = evt.getScreen();
@@ -43,10 +38,10 @@ public class GUIEventHandler {
             int iconX = guiLeft + 49 - subTextureWidth / 2;
             int iconY = guiTop - subTextureHeight + 4;
 
-            evt.addListener(new FameWidget(iconX, iconY, TEXTURE, u, v,
+            evt.addListener(new FameWidget(iconX, iconY, TEXTURE, 0, 1,
                     subTextureWidth, subTextureHeight,
                     textureWidth, textureHeight,
-                    String.valueOf(currentFame), textColor));
+                    "0", 0));
         }
     }
 }
