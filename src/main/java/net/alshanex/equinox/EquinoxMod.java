@@ -1,11 +1,13 @@
 package net.alshanex.equinox;
 
 import com.mojang.logging.LogUtils;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipe;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
 import net.alshanex.equinox.compat.Curios;
 import net.alshanex.equinox.event.GUIEventHandler;
 import net.alshanex.equinox.item.ModItems;
+import net.alshanex.equinox.network.ModPackets;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
@@ -58,7 +60,7 @@ public class EquinoxMod
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        event.enqueueWork(() -> AlchemistCauldronRecipeRegistry.registerRecipe(new ResourceLocation(EquinoxMod.MODID, BuiltInRegistries.ITEM.getKey(ModItems.CORRUPTED_ORB.get()).getPath()), new AlchemistCauldronRecipe(ModItems.EMPTY_ORB.get(), Items.FERMENTED_SPIDER_EYE, ModItems.CORRUPTED_ORB.get()).setBaseRequirement(2).setResultLimit(1)));
+        ModPackets.register();
     }
 
     // Add the example block item to the building blocks tab

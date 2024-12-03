@@ -19,6 +19,10 @@ public class CelestialFame {
         this.fame = Math.max(fame - sub, MIN_FAME);
     }
 
+    public void setFame(int fame){
+        this.fame = fame;
+    }
+
     public void saveNBTData(CompoundTag nbt){
         nbt.putInt("celestialFame", fame);
     }

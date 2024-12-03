@@ -16,12 +16,12 @@ import net.minecraft.world.entity.player.Player;
 
 public class FameWidget extends AbstractWidget {
     private final ResourceLocation texture;
-    int currentFame = 0;
-    int u = 0;
+    int u;
     private final int v, textureWidth, textureHeight;
     private final int subTextureWidth, subTextureHeight;
     private String text;
     private int textColor;
+    private final int pixelsPerLetter = 6;
 
     public FameWidget(int x, int y, ResourceLocation texture, int u, int v,
                       int subTextureWidth, int subTextureHeight,
@@ -49,8 +49,8 @@ public class FameWidget extends AbstractWidget {
 
         guiGraphics.blit(texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), u, v, subTextureWidth, subTextureHeight, textureWidth, textureHeight);
 
-        text = String.valueOf(currentFame);
-        int textX = getX() + 2 * (subTextureWidth / 3);
+        int letters = this.text.length();
+        int textX = getX() + 35 - (letters * pixelsPerLetter)/2;
         int textY = getY() + 5;
         guiGraphics.drawString(Minecraft.getInstance().font, text, textX, textY, textColor, false);
     }
@@ -63,28 +63,28 @@ public class FameWidget extends AbstractWidget {
     private void getCurrentFame(Player player){
         if(EUtils.hasItemInOrbSlotLocal(player, ModItems.PLASMATIC_ORB.get())){
             player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
-                this.currentFame = fame.getFame();
-                this.u = -1 + subTextureWidth * 4;
+                this.text = String.valueOf(fame.getFame());
+                this.u = 6 + subTextureWidth * 4;
                 this.textColor = 0xE69224;
             });
         }
         if(EUtils.hasItemInOrbSlotLocal(player, ModItems.BLESSED_ORB.get())){
             player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
-                this.currentFame = fame.getFame();
+                this.text = String.valueOf(fame.getFame());
                 this.u = 2 + subTextureWidth;
                 this.textColor = 0xF2F0AF;
             });
         }
         if(EUtils.hasItemInOrbSlotLocal(player, ModItems.CORRUPTED_ORB.get())){
             player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
-                this.currentFame = fame.getFame();
+                this.text = String.valueOf(fame.getFame());
                 this.u = 3 + subTextureWidth * 2;
                 this.textColor = 0xAB2F2F;
             });
         }
         if(EUtils.hasItemInOrbSlotLocal(player, ModItems.OBSCURE_ORB.get())){
             player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
-                this.currentFame = fame.getFame();
+                this.text = String.valueOf(fame.getFame());
                 this.u = 4 + subTextureWidth * 3;
                 this.textColor = 0x248B84;
             });
