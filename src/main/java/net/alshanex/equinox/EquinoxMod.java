@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipe;
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
 import net.alshanex.equinox.compat.Curios;
-import net.alshanex.equinox.event.ClientEvents;
+import net.alshanex.equinox.event.GUIEventHandler;
 import net.alshanex.equinox.item.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -37,12 +37,12 @@ public class EquinoxMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modEventBus.addListener(ClientEvents::onRegisterOverlays);
-
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
         ModItems.register(modEventBus);
+
+        MinecraftForge.EVENT_BUS.register(new GUIEventHandler());
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
