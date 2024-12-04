@@ -1,6 +1,18 @@
 {
   "values": [
     {
+      "id": "soulsweapons:day_stalker",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:night_prowler",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:moonknight",
+      "required": false
+    },
+    {
       "id": "cataclysm:ancient_ancient_remnant",
       "required": false
     },
@@ -18,6 +30,14 @@
     },
     {
       "id": "cataclysm:wadjet",
+      "required": false
+    },
+    {
+      "id": "aether:valkyrie_queen",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:dune_sentinel",
       "required": false
     }
   ]

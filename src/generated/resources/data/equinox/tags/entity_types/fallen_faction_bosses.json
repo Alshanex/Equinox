@@ -3,11 +3,43 @@
     "minecraft:wither",
     "irons_spellbooks:dead_king",
     {
+      "id": "soulsweapons:chaos_monarch",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:accursed_lord_boss",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:night_shade",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:draugr_boss",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:returning_knight",
+      "required": false
+    },
+    {
       "id": "cataclysm:aptrgangr",
       "required": false
     },
     {
       "id": "cataclysm:maledictus",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:corpse_warlock",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:skeletosaurus",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:withered_abomination",
       "required": false
     }
   ]

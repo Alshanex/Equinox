@@ -14,6 +14,58 @@
     {
       "id": "cataclysm:ignited_berserker",
       "required": false
+    },
+    {
+      "id": "netherexp:apparition",
+      "required": false
+    },
+    {
+      "id": "netherexp:ecto_slab",
+      "required": false
+    },
+    {
+      "id": "netherexp:banshee",
+      "required": false
+    },
+    {
+      "id": "netherexp:vessel",
+      "required": false
+    },
+    {
+      "id": "netherexp:stampede",
+      "required": false
+    },
+    {
+      "id": "twilightforest:fire_beetle",
+      "required": false
+    },
+    {
+      "id": "twilightforest:carminite_ghastling",
+      "required": false
+    },
+    {
+      "id": "twilightforest:carminite_ghastguard",
+      "required": false
+    },
+    {
+      "id": "twilightforest:carminite_golem",
+      "required": false
+    },
+    {
+      "id": "monsterplus:lava_squid",
+      "required": false
+    },
+    {
+      "id": "monsterplus:mother_lava_squid",
+      "required": false
+    },
+    {
+      "id": "aether:fire_minion",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:lava_eater",
+      "required": false
     }
   ]
 }

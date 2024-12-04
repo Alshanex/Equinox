@@ -16,6 +16,26 @@
     "irons_spellbooks:catacombs_zombie",
     "irons_spellbooks:citadel_keeper",
     {
+      "id": "soulsweapons:withered_demon",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:remnant",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:forlorn",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:dark_sorcerer",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:evil_forlorn",
+      "required": false
+    },
+    {
       "id": "graveyard:skeleton_creeper",
       "required": false
     },
@@ -97,6 +117,106 @@
     },
     {
       "id": "cataclysm:elite_draugr",
+      "required": false
+    },
+    {
+      "id": "netherexp:banshee",
+      "required": false
+    },
+    {
+      "id": "netherexp:vessel",
+      "required": false
+    },
+    {
+      "id": "netherexp:stampede",
+      "required": false
+    },
+    {
+      "id": "mutantmonsters:mutant_skeleton",
+      "required": false
+    },
+    {
+      "id": "mutantmonsters:mutant_zombie",
+      "required": false
+    },
+    {
+      "id": "twilightforest:skeleton_druid",
+      "required": false
+    },
+    {
+      "id": "twilightforest:knight_phantom",
+      "required": false
+    },
+    {
+      "id": "monsterplus:spectral_skeleton",
+      "required": false
+    },
+    {
+      "id": "monsterplus:swamp_zombie",
+      "required": false
+    },
+    {
+      "id": "monsterplus:overgrown_skeleton",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_scuttler",
+      "required": false
+    },
+    {
+      "id": "iceandfire:ghost",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_ghoul",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_knight",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_lich",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_beast",
+      "required": false
+    },
+    {
+      "id": "iceandfire:dread_thrall",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:corpse",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:corpse_villager",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_skeleton",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_knight",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_shaman",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_golem",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:skeloraptor",
+      "required": false
+    },
+    {
+      "id": "fromtheshadows:cleric",
       "required": false
     }
   ]

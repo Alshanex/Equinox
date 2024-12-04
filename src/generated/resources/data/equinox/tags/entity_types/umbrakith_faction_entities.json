@@ -5,6 +5,14 @@
     "minecraft:silverfish",
     "minecraft:witch",
     {
+      "id": "soulsweapons:dark_sorcerer",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:evil_forlorn",
+      "required": false
+    },
+    {
       "id": "alexscaves:hullbreaker",
       "required": false
     },
@@ -62,6 +70,86 @@
     },
     {
       "id": "cataclysm:deepling_warlock",
+      "required": false
+    },
+    {
+      "id": "netherexp:apparition",
+      "required": false
+    },
+    {
+      "id": "netherexp:ecto_slab",
+      "required": false
+    },
+    {
+      "id": "mutantmonsters:spider_pig",
+      "required": false
+    },
+    {
+      "id": "monsterplus:crystal_zombie",
+      "required": false
+    },
+    {
+      "id": "deeperdarker:sculk_centipede",
+      "required": false
+    },
+    {
+      "id": "deeperdarker:shriek_worm",
+      "required": false
+    },
+    {
+      "id": "deeperdarker:shattered",
+      "required": false
+    },
+    {
+      "id": "deeperdarker:stalker",
+      "required": false
+    },
+    {
+      "id": "iceandfire:siren",
+      "required": false
+    },
+    {
+      "id": "iceandfire:sea_serpent",
+      "required": false
+    },
+    {
+      "id": "iceandfire:hydra",
+      "required": false
+    },
+    {
+      "id": "aether:mimic",
+      "required": false
+    },
+    {
+      "id": "eldritch_end:aberration",
+      "required": false
+    },
+    {
+      "id": "eldritch_end:dendler",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:haunted_guard",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:haunted_knight",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:ambusher",
+      "required": false
+    },
+    {
+      "id": "fromtheshadows:froglin",
+      "required": false
+    },
+    {
+      "id": "fromtheshadows:bulldrogioth",
+      "required": false
+    },
+    {
+      "id": "fromtheshadows:nehemoth",
       "required": false
     }
   ]

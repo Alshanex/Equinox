@@ -7,6 +7,10 @@
     {
       "id": "cataclysm:koboleton",
       "required": false
+    },
+    {
+      "id": "aether:valkyrie",
+      "required": false
     }
   ]
 }

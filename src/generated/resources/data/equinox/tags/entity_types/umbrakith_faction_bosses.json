@@ -3,6 +3,34 @@
     "minecraft:elder_guardian",
     "minecraft:warden",
     {
+      "id": "soulsweapons:day_stalker",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:night_prowler",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:chaos_monarch",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:night_shade",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:ferrous_wroughtnaut",
+      "required": false
+    },
+    {
+      "id": "blue_skies:alchemist",
+      "required": false
+    },
+    {
+      "id": "blue_skies:summoner",
+      "required": false
+    },
+    {
       "id": "cataclysm:coral_golem",
       "required": false
     },
@@ -16,6 +44,38 @@
     },
     {
       "id": "cataclysm:the_baby_leviathan",
+      "required": false
+    },
+    {
+      "id": "twilightforest:hydra",
+      "required": false
+    },
+    {
+      "id": "eldritch_end:the_faceless",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:corpse_warlock",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:guling_sentinel_heavy",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_shaman",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_executioner",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:ancient_guardian",
+      "required": false
+    },
+    {
+      "id": "legendary_monsters:posessed_paladin",
       "required": false
     }
   ]

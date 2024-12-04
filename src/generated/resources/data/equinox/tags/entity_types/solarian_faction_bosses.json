@@ -1,11 +1,43 @@
 {
   "values": [
     {
+      "id": "soulsweapons:day_stalker",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:night_prowler",
+      "required": false
+    },
+    {
+      "id": "soulsweapons:accursed_lord_boss",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:umvuthi",
+      "required": false
+    },
+    {
       "id": "cataclysm:netherite_monstrosity",
       "required": false
     },
     {
       "id": "cataclysm:ignis",
+      "required": false
+    },
+    {
+      "id": "twilightforest:ur_ghast",
+      "required": false
+    },
+    {
+      "id": "iceandfire:fire_dragon",
+      "required": false
+    },
+    {
+      "id": "aether:sun_spirit",
+      "required": false
+    },
+    {
+      "id": "eeeabsmobs:immortal_executioner",
       "required": false
     }
   ]
