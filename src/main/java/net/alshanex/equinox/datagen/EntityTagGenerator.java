@@ -64,6 +64,16 @@ public class EntityTagGenerator extends EntityTypeTagsProvider {
                 .addOptional(new ResourceLocation("graveyard", "corrupted_pillager"));
         tag(FALLEN_FACTION_ENTITIES)
                 .addOptional(new ResourceLocation("graveyard", "corrupted_vindicator"));
+        tag(FALLEN_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "underzealot"));
+        tag(FALLEN_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "watcher"));
+        tag(FALLEN_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "corrodent"));
+        tag(FALLEN_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "vesper"));
+        tag(FALLEN_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "forsaken"));
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isFallenFactionBoss)
@@ -106,6 +116,16 @@ public class EntityTagGenerator extends EntityTypeTagsProvider {
                 .addOptional(new ResourceLocation("cataclysm", "deepling_priest"));
         tag(UMBRAKITH_FACTION_ENTITIES)
                 .addOptional(new ResourceLocation("cataclysm", "deepling_warlock"));
+        tag(UMBRAKITH_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "hullbreaker"));
+        tag(UMBRAKITH_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "deep_one"));
+        tag(UMBRAKITH_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "deep_one_mage"));
+        tag(UMBRAKITH_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "deep_one_knight"));
+        tag(UMBRAKITH_FACTION_ENTITIES)
+                .addOptional(new ResourceLocation("alexscaves", "mine_guardian"));
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isUmbrakithFactionBoss)

@@ -66,6 +66,26 @@
     {
       "id": "graveyard:corrupted_vindicator",
       "required": false
+    },
+    {
+      "id": "alexscaves:underzealot",
+      "required": false
+    },
+    {
+      "id": "alexscaves:watcher",
+      "required": false
+    },
+    {
+      "id": "alexscaves:corrodent",
+      "required": false
+    },
+    {
+      "id": "alexscaves:vesper",
+      "required": false
+    },
+    {
+      "id": "alexscaves:forsaken",
+      "required": false
     }
   ]
 }

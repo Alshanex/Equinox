@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 public class FallenFame {
     private int fame;
     private final int MIN_FAME = 0;
-    private final int MAX_FAME = 5000;
+    private final int MAX_FAME = 1000;
 
     public int getFame(){
         return fame;
