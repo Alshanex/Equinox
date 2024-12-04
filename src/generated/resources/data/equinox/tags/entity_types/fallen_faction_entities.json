@@ -16,23 +16,15 @@
     "irons_spellbooks:catacombs_zombie",
     "irons_spellbooks:citadel_keeper",
     {
-      "id": "cataclysm:draugr",
-      "required": false
-    },
-    {
-      "id": "cataclysm:royal_draugr",
-      "required": false
-    },
-    {
-      "id": "cataclysm:elite_draugr",
-      "required": false
-    },
-    {
       "id": "graveyard:skeleton_creeper",
       "required": false
     },
     {
       "id": "graveyard:acolyte",
+      "required": false
+    },
+    {
+      "id": "graveyard:reaper",
       "required": false
     },
     {
@@ -85,6 +77,26 @@
     },
     {
       "id": "alexscaves:forsaken",
+      "required": false
+    },
+    {
+      "id": "alexscaves:radgill",
+      "required": false
+    },
+    {
+      "id": "alexscaves:brainiac",
+      "required": false
+    },
+    {
+      "id": "cataclysm:draugr",
+      "required": false
+    },
+    {
+      "id": "cataclysm:royal_draugr",
+      "required": false
+    },
+    {
+      "id": "cataclysm:elite_draugr",
       "required": false
     }
   ]

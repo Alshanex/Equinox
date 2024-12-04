@@ -16,6 +16,10 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class EntityTagGenerator extends EntityTypeTagsProvider {
@@ -37,122 +41,116 @@ public class EntityTagGenerator extends EntityTypeTagsProvider {
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isFallenFaction)
                 .forEach(entityType -> tag(FALLEN_FACTION_ENTITIES).add(entityType));
+        HashMap<String, List<String>> fallenOptionalEntities = new HashMap<>();
+        fallenOptionalEntities.put("cataclysm", Arrays.asList("draugr", "royal_draugr", "elite_draugr"));
+        fallenOptionalEntities.put("graveyard", Arrays.asList("skeleton_creeper", "acolyte", "reaper", "reaper", "ghoul", "nightmare", "revenant", "lich", "wraith", "corrupted_pillager", "corrupted_vindicator"));
+        fallenOptionalEntities.put("alexscaves", Arrays.asList("underzealot", "watcher", "corrodent", "vesper", "forsaken", "radgill", "brainiac"));
 
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "draugr"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "royal_draugr"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "elite_draugr"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "skeleton_creeper"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "acolyte"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "reaper"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "ghoul"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "nightmare"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "revenant"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "lich"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "wraith"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "corrupted_pillager"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("graveyard", "corrupted_vindicator"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "underzealot"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "watcher"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "corrodent"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "vesper"));
-        tag(FALLEN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "forsaken"));
+        for (String key : fallenOptionalEntities.keySet()) {
+            List<String> values = fallenOptionalEntities.get(key);
+            for(String value : values){
+                tag(FALLEN_FACTION_ENTITIES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isFallenFactionBoss)
                 .forEach(entityType -> tag(FALLEN_FACTION_BOSSES).add(entityType));
 
-        tag(FALLEN_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "aptrgangr"));
-        tag(FALLEN_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "maledictus"));
+        HashMap<String, List<String>> fallenOptionalBosses = new HashMap<>();
+        fallenOptionalBosses.put("cataclysm", Arrays.asList("aptrgangr", "maledictus"));
+
+        for (String key : fallenOptionalBosses.keySet()) {
+            List<String> values = fallenOptionalBosses.get(key);
+            for(String value : values){
+                tag(FALLEN_FACTION_BOSSES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isCelestialFaction)
                 .forEach(entityType -> tag(CELESTIAL_FACTION_ENTITIES).add(entityType));
 
-        tag(CELESTIAL_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "koboleton"));
+        HashMap<String, List<String>> celestialOptionalEntities = new HashMap<>();
+        celestialOptionalEntities.put("cataclysm", Arrays.asList("koboleton"));
 
-        tag(CELESTIAL_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "ancient_ancient_remnant"));
-        tag(CELESTIAL_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "ancient_remnant"));
-        tag(CELESTIAL_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "modern_remnant"));
-        tag(CELESTIAL_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "kobolediator"));
-        tag(CELESTIAL_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "wadjet"));
+        for (String key : celestialOptionalEntities.keySet()) {
+            List<String> values = celestialOptionalEntities.get(key);
+            for(String value : values){
+                tag(CELESTIAL_FACTION_ENTITIES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
+
+        HashMap<String, List<String>> celestialOptionalBosses = new HashMap<>();
+        celestialOptionalBosses.put("cataclysm", Arrays.asList("ancient_ancient_remnant", "ancient_remnant", "modern_remnant", "kobolediator", "wadjet"));
+
+        for (String key : celestialOptionalBosses.keySet()) {
+            List<String> values = celestialOptionalBosses.get(key);
+            for(String value : values){
+                tag(CELESTIAL_FACTION_BOSSES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isUmbrakithFaction)
                 .forEach(entityType -> tag(UMBRAKITH_FACTION_ENTITIES).add(entityType));
 
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "deepling"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "deepling_brute"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "deepling_angler"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "deepling_priest"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "deepling_warlock"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "hullbreaker"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "deep_one"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "deep_one_mage"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "deep_one_knight"));
-        tag(UMBRAKITH_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("alexscaves", "mine_guardian"));
+        HashMap<String, List<String>> umbrakithOptionalEntities = new HashMap<>();
+        umbrakithOptionalEntities.put("cataclysm", Arrays.asList("deepling", "deepling_brute", "deepling_angler", "deepling_priest", "deepling_warlock"));
+        umbrakithOptionalEntities.put("alexscaves", Arrays.asList("hullbreaker", "deep_one", "deep_one_mage", "deep_one_knight", "mine_guardian", "underzealot", "watcher", "corrodent", "vesper", "forsaken"));
+
+        for (String key : umbrakithOptionalEntities.keySet()) {
+            List<String> values = umbrakithOptionalEntities.get(key);
+            for(String value : values){
+                tag(UMBRAKITH_FACTION_ENTITIES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isUmbrakithFactionBoss)
                 .forEach(entityType -> tag(UMBRAKITH_FACTION_BOSSES).add(entityType));
 
-        tag(UMBRAKITH_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "coral_golem"));
-        tag(UMBRAKITH_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "coralssus"));
-        tag(UMBRAKITH_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "the_leviathan"));
-        tag(UMBRAKITH_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "the_baby_leviathan"));
+        HashMap<String, List<String>> umbrakithOptionalBosses = new HashMap<>();
+        umbrakithOptionalBosses.put("cataclysm", Arrays.asList("coral_golem", "coralssus", "the_leviathan", "the_baby_leviathan"));
+
+        for (String key : umbrakithOptionalBosses.keySet()) {
+            List<String> values = umbrakithOptionalBosses.get(key);
+            for(String value : values){
+                tag(UMBRAKITH_FACTION_BOSSES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
 
         BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(EUtils::isSolarianFaction)
                 .forEach(entityType -> tag(SOLARIAN_FACTION_ENTITIES).add(entityType));
 
-        tag(SOLARIAN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "ignited_revenant"));
-        tag(SOLARIAN_FACTION_ENTITIES)
-                .addOptional(new ResourceLocation("cataclysm", "ignited_berserker"));
+        HashMap<String, List<String>> solarianOptionalEntities = new HashMap<>();
+        solarianOptionalEntities.put("cataclysm", Arrays.asList("ignited_revenant", "ignited_berserker"));
 
-        tag(SOLARIAN_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "netherite_monstrosity"));
-        tag(SOLARIAN_FACTION_BOSSES)
-                .addOptional(new ResourceLocation("cataclysm", "ignis"));
+        for (String key : solarianOptionalEntities.keySet()) {
+            List<String> values = solarianOptionalEntities.get(key);
+            for(String value : values){
+                tag(SOLARIAN_FACTION_ENTITIES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
+
+        HashMap<String, List<String>> solarianOptionalBosses = new HashMap<>();
+        solarianOptionalBosses.put("cataclysm", Arrays.asList("netherite_monstrosity", "ignis"));
+
+        for (String key : solarianOptionalBosses.keySet()) {
+            List<String> values = solarianOptionalBosses.get(key);
+            for(String value : values){
+                tag(SOLARIAN_FACTION_BOSSES)
+                        .addOptional(new ResourceLocation(key, value));
+            }
+        }
     }
 
     private static TagKey<EntityType<?>> createKey(final String name) {

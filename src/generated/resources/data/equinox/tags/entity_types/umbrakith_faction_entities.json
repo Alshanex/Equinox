@@ -5,26 +5,6 @@
     "minecraft:silverfish",
     "minecraft:witch",
     {
-      "id": "cataclysm:deepling",
-      "required": false
-    },
-    {
-      "id": "cataclysm:deepling_brute",
-      "required": false
-    },
-    {
-      "id": "cataclysm:deepling_angler",
-      "required": false
-    },
-    {
-      "id": "cataclysm:deepling_priest",
-      "required": false
-    },
-    {
-      "id": "cataclysm:deepling_warlock",
-      "required": false
-    },
-    {
       "id": "alexscaves:hullbreaker",
       "required": false
     },
@@ -42,6 +22,46 @@
     },
     {
       "id": "alexscaves:mine_guardian",
+      "required": false
+    },
+    {
+      "id": "alexscaves:underzealot",
+      "required": false
+    },
+    {
+      "id": "alexscaves:watcher",
+      "required": false
+    },
+    {
+      "id": "alexscaves:corrodent",
+      "required": false
+    },
+    {
+      "id": "alexscaves:vesper",
+      "required": false
+    },
+    {
+      "id": "alexscaves:forsaken",
+      "required": false
+    },
+    {
+      "id": "cataclysm:deepling",
+      "required": false
+    },
+    {
+      "id": "cataclysm:deepling_brute",
+      "required": false
+    },
+    {
+      "id": "cataclysm:deepling_angler",
+      "required": false
+    },
+    {
+      "id": "cataclysm:deepling_priest",
+      "required": false
+    },
+    {
+      "id": "cataclysm:deepling_warlock",
       "required": false
     }
   ]
