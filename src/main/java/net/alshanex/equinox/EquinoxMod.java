@@ -6,12 +6,15 @@ import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRec
 import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
 import net.alshanex.equinox.compat.Curios;
 import net.alshanex.equinox.event.GUIEventHandler;
+import net.alshanex.equinox.gui.SpyglassFactionInspect;
 import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.network.ModPackets;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -96,6 +99,10 @@ public class EquinoxMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
 
+        }
+        @SubscribeEvent
+        public static void onRegisterOverlays(RegisterGuiOverlaysEvent event) {
+            event.registerAbove(VanillaGuiOverlay.SPYGLASS.id(), "faction_inspection", SpyglassFactionInspect.instance);
         }
     }
 }
