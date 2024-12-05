@@ -16,8 +16,7 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraft.client.Minecraft;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SpyglassFactionInspect implements IGuiOverlay {
     public static SpyglassFactionInspect instance = new SpyglassFactionInspect();
@@ -27,10 +26,6 @@ public class SpyglassFactionInspect implements IGuiOverlay {
     public final static ResourceLocation UMBRAKITH_ICON = new ResourceLocation(EquinoxMod.MODID, "textures/gui/umbrakith_icon.png");
     public final static ResourceLocation SOLARIAN_ICON = new ResourceLocation(EquinoxMod.MODID, "textures/gui/solarian_icon.png");
     private final int pixelsPerLetter = 6;
-    private final String solarian = "SOLARIAN";
-    private final String fallen = "FALLEN";
-    private final String celestial = "CELESTIAL";
-    private final String umbrakith = "UMBRAKITH";
 
 
     static final int ICON_WIDTH = 20;
@@ -49,44 +44,46 @@ public class SpyglassFactionInspect implements IGuiOverlay {
         int posYThirdIcon = (screenHeight / 4) * 3 - ICON_HEIGHT * 3;
         int posYFourthIcon = screenHeight - ICON_HEIGHT * 3;
         int posX = (int) (ICON_WIDTH * 1.5);
+        List<Integer> YPositions = Arrays.asList(posYFirstIcon, posYSecondIcon, posYThirdIcon, posYFourthIcon);
+
+        List<ResourceLocation> currentIcons = new ArrayList<>();
+
+        HashMap<ResourceLocation, Integer> textColors = new HashMap<>();
+        textColors.put(CELESTIAL_ICON, 0xF2F0AF);
+        textColors.put(FALLEN_ICON, 0xAB2F2F);
+        textColors.put(SOLARIAN_ICON, 0xE69224);
+        textColors.put(UMBRAKITH_ICON, 0x248B84);
+
+        HashMap<ResourceLocation, String> texts = new HashMap<>();
+        texts.put(CELESTIAL_ICON, "CELESTIAL");
+        texts.put(FALLEN_ICON, "FALLEN");
+        texts.put(SOLARIAN_ICON, "SOLARIAN");
+        texts.put(UMBRAKITH_ICON, "UMBRAKITH");
 
         Entity entityLookingAt = getTargetedEntity(player);
 
         if(entityLookingAt != null){
             if(entityLookingAt.getType().is(EntityTagGenerator.SOLARIAN_FACTION_BOSSES) || entityLookingAt.getType().is(EntityTagGenerator.SOLARIAN_FACTION_ENTITIES)){
-                guiGraphics.blit(SOLARIAN_ICON, posX, posYFirstIcon, 0, 0, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-
-                int textX = posX + (ICON_WIDTH / 2) - (solarian.length() * pixelsPerLetter) / 2;
-                int textY = posYFirstIcon + ICON_HEIGHT + 3;
-                int textColor = 0xE69224;
-                guiGraphics.drawString(Minecraft.getInstance().font, solarian, textX, textY, textColor, false);
+                currentIcons.add(SOLARIAN_ICON);
             }
             if(entityLookingAt.getType().is(EntityTagGenerator.FALLEN_FACTION_ENTITIES) || entityLookingAt.getType().is(EntityTagGenerator.FALLEN_FACTION_BOSSES)){
-                guiGraphics.blit(FALLEN_ICON, posX, posYSecondIcon, 0, 0, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-
-                int textX = posX + (ICON_WIDTH / 2) - (fallen.length() * pixelsPerLetter) / 2;
-                int textY = posYSecondIcon + ICON_HEIGHT + 3;
-                int textColor = 0xAB2F2F;
-                guiGraphics.drawString(Minecraft.getInstance().font, fallen, textX, textY, textColor, false);
+                currentIcons.add(FALLEN_ICON);
             }
             if(entityLookingAt.getType().is(EntityTagGenerator.CELESTIAL_FACTION_BOSSES) || entityLookingAt.getType().is(EntityTagGenerator.CELESTIAL_FACTION_ENTITIES)){
-                guiGraphics.blit(CELESTIAL_ICON, posX, posYThirdIcon, 0, 0, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-
-                int textX = posX + (ICON_WIDTH / 2) - (celestial.length() * pixelsPerLetter) / 2;
-                int textY = posYThirdIcon + ICON_HEIGHT + 3;
-                int textColor = 0xF2F0AF;
-                guiGraphics.drawString(Minecraft.getInstance().font, celestial, textX, textY, textColor, false);
+                currentIcons.add(CELESTIAL_ICON);
             }
             if(entityLookingAt.getType().is(EntityTagGenerator.UMBRAKITH_FACTION_ENTITIES) || entityLookingAt.getType().is(EntityTagGenerator.UMBRAKITH_FACTION_BOSSES)){
-                guiGraphics.blit(UMBRAKITH_ICON, posX, posYFourthIcon, 0, 0, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-
-                int textX = posX + (ICON_WIDTH / 2) - (umbrakith.length() * pixelsPerLetter) / 2;
-                int textY = posYFourthIcon + ICON_HEIGHT + 3;
-                int textColor = 0x248B84;
-                guiGraphics.drawString(Minecraft.getInstance().font, umbrakith, textX, textY, textColor, false);
+                currentIcons.add(UMBRAKITH_ICON);
             }
         }
 
+        for(int i = 0; i < currentIcons.size(); i++){
+            guiGraphics.blit(currentIcons.get(i), posX, YPositions.get(i), 0, 0, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+
+            int textX = posX + (ICON_WIDTH / 2) - (texts.get(currentIcons.get(i)).length() * pixelsPerLetter) / 2;
+            int textY = YPositions.get(i) + ICON_HEIGHT + 3;
+            guiGraphics.drawString(Minecraft.getInstance().font, texts.get(currentIcons.get(i)), textX, textY, textColors.get(currentIcons.get(i)), false);
+        }
     }
 
     private double getMaxRenderDistanceForEntity() {
