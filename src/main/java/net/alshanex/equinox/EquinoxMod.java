@@ -9,6 +9,7 @@ import net.alshanex.equinox.event.GUIEventHandler;
 import net.alshanex.equinox.gui.SpyglassFactionInspect;
 import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.network.ModPackets;
+import net.alshanex.equinox.registry.SpellRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
@@ -46,6 +47,8 @@ public class EquinoxMod
         modEventBus.addListener(this::commonSetup);
 
         ModItems.register(modEventBus);
+
+        SpellRegistry.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new GUIEventHandler());
 

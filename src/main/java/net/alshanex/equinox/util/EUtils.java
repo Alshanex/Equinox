@@ -1,19 +1,37 @@
 package net.alshanex.equinox.util;
 
+import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
+import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
+import io.redspace.ironsspellbooks.block.pedestal.PedestalBlock;
+import io.redspace.ironsspellbooks.block.pedestal.PedestalTile;
+import io.redspace.ironsspellbooks.registries.BlockRegistry;
 import io.redspace.ironsspellbooks.registries.EntityRegistry;
+import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.alshanex.equinox.compat.Curios;
 import net.alshanex.equinox.fame.SolarianFameProvider;
 import net.alshanex.equinox.item.ModItems;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.util.function.Predicate;
 
 public class EUtils {
     public static boolean hasItemInOrbSlot(ServerPlayer player, Item itemToCheck) {
@@ -103,5 +121,33 @@ public class EUtils {
         return entityType == EntityType.BLAZE || entityType == EntityType.PIGLIN || entityType == EntityType.PIGLIN_BRUTE ||
                 entityType == EntityType.GHAST || entityType == EntityType.MAGMA_CUBE ||
                 entityType == EntityRegistry.APOTHECARIST.get() || entityType == EntityRegistry.PYROMANCER.get();
+    }
+
+    public static BlockEntity raycastBlockEntity(Level level, LivingEntity entity, double distance) {
+
+        Vec3 start = entity.getEyePosition(1.0F);
+
+        Vec3 direction = entity.getViewVector(1.0F);
+
+        Vec3 end = start.add(direction.scale(distance));
+
+        BlockHitResult hitResult = level.clip(new net.minecraft.world.level.ClipContext(
+                start,
+                end,
+                net.minecraft.world.level.ClipContext.Block.COLLIDER,
+                net.minecraft.world.level.ClipContext.Fluid.NONE,
+                entity
+        ));
+
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            BlockPos blockPos = hitResult.getBlockPos();
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+
+            if (blockEntity != null) {
+                return blockEntity;
+            }
+        }
+
+        return null;
     }
 }
