@@ -1,16 +1,12 @@
 package net.alshanex.equinox;
 
 import com.mojang.logging.LogUtils;
-import io.redspace.ironsspellbooks.IronsSpellbooks;
-import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipe;
-import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
 import net.alshanex.equinox.compat.Curios;
 import net.alshanex.equinox.event.GUIEventHandler;
 import net.alshanex.equinox.gui.SpyglassFactionInspect;
 import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.network.ModPackets;
 import net.alshanex.equinox.registry.SpellRegistry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;

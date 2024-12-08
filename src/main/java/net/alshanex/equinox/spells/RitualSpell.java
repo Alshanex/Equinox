@@ -46,7 +46,7 @@ import java.util.Optional;
 public class RitualSpell extends AbstractSpell {
     private PedestalTile ritualPedestal;
     private ParticleOptions particles;
-    private Item orbResult;
+    private Item ritualResult;
     private List<PedestalTile> surroundingPedestals = new ArrayList<>();
     private int counter = 0;
 
@@ -99,11 +99,11 @@ public class RitualSpell extends AbstractSpell {
         if(validPedestal){
             PedestalTile pedestal = RitualHelper.getPedestal(entity, 10);
             if(pedestal != null){
-                isValidRitual = RitualHelper.isValidRecipe(level, entity, pedestal.getBlockPos());
+                isValidRitual = RitualHelper.isValidRecipe(level, entity, pedestal);
                 if(isValidRitual){
                     this.ritualPedestal = pedestal;
-                    this.orbResult = RitualHelper.getOrbForRecipe(level, this.ritualPedestal.getBlockPos());
-                    this.particles = RitualHelper.getParticleForRitual(this.orbResult);
+                    this.ritualResult = RitualHelper.getOrbForRecipe(level, this.ritualPedestal);
+                    this.particles = RitualHelper.getParticleForRitual(this.ritualResult);
                     this.surroundingPedestals = RitualHelper.getSurroundingPedestals(this.ritualPedestal, level);
                 }
             }
@@ -136,7 +136,7 @@ public class RitualSpell extends AbstractSpell {
     @Override
     public void onServerCastComplete(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData, boolean cancelled) {
         this.ritualPedestal = null;
-        this.orbResult = null;
+        this.ritualResult = null;
         this.particles = null;
         this.surroundingPedestals = new ArrayList<>();
         this.counter = 0;
@@ -153,7 +153,7 @@ public class RitualSpell extends AbstractSpell {
                 }
             }
         }
-        this.ritualPedestal.setHeldItem(new ItemStack(this.orbResult));
+        this.ritualPedestal.setHeldItem(new ItemStack(this.ritualResult));
         if(caster instanceof ServerPlayer player){
             ClientboundBlockEntityDataPacket updatedPacket = this.ritualPedestal.getUpdatePacket();
             if(updatedPacket != null){
