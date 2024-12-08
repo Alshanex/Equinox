@@ -133,16 +133,12 @@ public class ServerEvents {
                         player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
                             fame.addFame(1);
                             ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Fallen Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x652929)))));
                         });
                     }
                     if(event.getEntity().getType().is(EntityTagGenerator.CELESTIAL_FACTION_BOSSES)){
                         player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
                             fame.addFame(5);
                             ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Fallen Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x652929)))));
                         });
                     }
                     if(event.getEntity() instanceof ServerPlayer killedPlayer){
@@ -150,24 +146,34 @@ public class ServerEvents {
                             player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
                                 fame.addFame(10);
                                 ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Fallen Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x652929)))));
+                            });
+                            killedPlayer.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
+                                fame.subFame(5);
+                                ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), killedPlayer);
                             });
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.OBSCURE_ORB.get()) || EUtils.hasItemInOrbSlot(killedPlayer, ModItems.PLASMATIC_ORB.get())){
                             player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
                                 fame.addFame(3);
                                 ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Fallen Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x652929)))));
                             });
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.OBSCURE_ORB.get())){
+                                killedPlayer.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.PLASMATIC_ORB.get())){
+                                killedPlayer.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.CORRUPTED_ORB.get())){
                             player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
                                 fame.subFame(5);
                                 ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Fallen Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x652929)))));
                             });
                         }
                     }
@@ -179,16 +185,12 @@ public class ServerEvents {
                         player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
                             fame.addFame(1);
                             ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Celestial Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0xF2F0AF)))));
                         });
                     }
                     if(event.getEntity().getType().is(EntityTagGenerator.FALLEN_FACTION_BOSSES)){
                         player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
                             fame.addFame(5);
                             ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Celestial Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0xF2F0AF)))));
                         });
                     }
                     if(event.getEntity() instanceof ServerPlayer killedPlayer){
@@ -196,24 +198,34 @@ public class ServerEvents {
                             player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
                                 fame.addFame(10);
                                 ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Celestial Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0xF2F0AF)))));
+                            });
+                            killedPlayer.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
+                                fame.subFame(5);
+                                ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), killedPlayer);
                             });
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.OBSCURE_ORB.get()) || EUtils.hasItemInOrbSlot(killedPlayer, ModItems.PLASMATIC_ORB.get())){
                             player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
                                 fame.addFame(3);
                                 ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Celestial Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0xF2F0AF)))));
                             });
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.OBSCURE_ORB.get())){
+                                killedPlayer.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.PLASMATIC_ORB.get())){
+                                killedPlayer.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.BLESSED_ORB.get())){
                             player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
                                 fame.subFame(5);
                                 ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Celestial Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0xF2F0AF)))));
                             });
                         }
                     }
@@ -225,16 +237,12 @@ public class ServerEvents {
                         player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
                             fame.addFame(1);
                             ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Umbrakith Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
                         });
                     }
                     if(event.getEntity().getType().is(EntityTagGenerator.SOLARIAN_FACTION_BOSSES)){
                         player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
                             fame.addFame(5);
                             ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Umbrakith Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
                         });
                     }
                     if(event.getEntity() instanceof ServerPlayer killedPlayer){
@@ -242,24 +250,34 @@ public class ServerEvents {
                             player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
                                 fame.addFame(10);
                                 ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Umbrakith Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
+                            });
+                            killedPlayer.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
+                                fame.subFame(5);
+                                ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), killedPlayer);
                             });
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.BLESSED_ORB.get()) || EUtils.hasItemInOrbSlot(killedPlayer, ModItems.CORRUPTED_ORB.get())){
                             player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
                                 fame.addFame(3);
                                 ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Umbrakith Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
                             });
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.BLESSED_ORB.get())){
+                                killedPlayer.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.CORRUPTED_ORB.get())){
+                                killedPlayer.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.OBSCURE_ORB.get())){
                             player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
                                 fame.subFame(5);
                                 ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Umbrakith Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
                             });
                         }
                     }
@@ -271,16 +289,12 @@ public class ServerEvents {
                         player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                             fame.addFame(1);
                             ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Solarian Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0xE69224)))));
                         });
                     }
                     if(event.getEntity().getType().is(EntityTagGenerator.UMBRAKITH_FACTION_BOSSES)){
                         player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                             fame.addFame(5);
                             ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
-                            player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Solarian Fame: " + fame.getFame())
-                                    .withStyle(s -> s.withColor(TextColor.fromRgb(0xE69224)))));
                         });
                     }
                     if(event.getEntity() instanceof ServerPlayer killedPlayer){
@@ -288,24 +302,34 @@ public class ServerEvents {
                             player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                                 fame.addFame(10);
                                 ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Solarian Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0xE69224)))));
+                            });
+                            killedPlayer.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
+                                fame.subFame(5);
+                                ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), killedPlayer);
                             });
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.BLESSED_ORB.get()) || EUtils.hasItemInOrbSlot(killedPlayer, ModItems.CORRUPTED_ORB.get())){
                             player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                                 fame.addFame(3);
                                 ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Solarian Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0xE69224)))));
                             });
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.BLESSED_ORB.get())){
+                                killedPlayer.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
+                            if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.CORRUPTED_ORB.get())){
+                                killedPlayer.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
+                                    fame.subFame(1);
+                                    ModPackets.sendToPlayer(new SyncFallenFamePackage(fame.getFame()), killedPlayer);
+                                });
+                            }
                         }
                         if(EUtils.hasItemInOrbSlot(killedPlayer, ModItems.PLASMATIC_ORB.get())){
                             player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                                 fame.subFame(5);
                                 ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
-                                player.connection.send(new ClientboundSetActionBarTextPacket(Component.literal("Solarian Fame: " + fame.getFame())
-                                        .withStyle(s -> s.withColor(TextColor.fromRgb(0x248B84)))));
                             });
                         }
                     }
