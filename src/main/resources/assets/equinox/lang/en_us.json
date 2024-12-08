@@ -12,6 +12,7 @@
   "ui.equinox.not_valid_pedestal": "The targeted block is not a pedestal block",
   "ui.equinox.not_valid_orb": "The pedestal needs to have an empty orb",
   "ui.equinox.not_valid_orb_recipe": "Not a valid orb recipe",
+  "ui.equinox.ritual_recipe_jei": "Ritual Casting",
 
   "item.equinox.blessed_orb": "Blessed Orb",
   "item.equinox.corrupted_orb": "Corrupted Orb",

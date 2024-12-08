@@ -1,6 +1,9 @@
 package net.alshanex.equinox.util;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +23,19 @@ public class RitualRecipe {
 
     public Set<Item> getInputItems() {
         return inputItems;
+    }
+
+    public NonNullList<Ingredient> getIngredients(){
+        NonNullList<Ingredient> ingredients = NonNullList.create();
+
+        for (Item item : getInputItems()) {
+            if (item != null) {
+                Ingredient ingredient = Ingredient.of(new ItemStack(item));
+                ingredients.add(ingredient);
+            }
+        }
+
+        return ingredients;
     }
 
     @Override
