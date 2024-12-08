@@ -1,7 +1,6 @@
 package net.alshanex.equinox.util;
 
 import io.redspace.ironsspellbooks.block.pedestal.PedestalTile;
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import net.alshanex.equinox.Config;
 import net.alshanex.equinox.item.ModItems;
@@ -15,7 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -124,29 +122,6 @@ public class RitualHelper {
     }
 
     public static Map<RitualRecipe, Item> getRitualRecipes(){
-        Config.loadConfigRecipes();
-        Map<RitualRecipe, Item> ritualRecipes = Config.ritualRecipes;
-
-        List<Item> fallenOrbRecipeItems = Arrays.asList(ItemRegistry.BLOOD_VIAL.get(), Items.WITHER_SKELETON_SKULL, ItemRegistry.BLOOD_RUNE.get(), ItemRegistry.ARCANE_ESSENCE.get());
-        Set<Item> setFallen = new HashSet<>(fallenOrbRecipeItems);
-        RitualRecipe fallenOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setFallen);
-        ritualRecipes.put(fallenOrbRecipe, ModItems.CORRUPTED_ORB.get());
-
-        List<Item> celestialOrbRecipeItems = Arrays.asList(ItemRegistry.DIVINE_PEARL.get(), ItemRegistry.PROTECTION_RUNE.get(), ItemRegistry.HOLY_RUNE.get(), ItemRegistry.ARCANE_ESSENCE.get());
-        Set<Item> setCelestial = new HashSet<>(celestialOrbRecipeItems);
-        RitualRecipe celestialOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setCelestial);
-        ritualRecipes.put(celestialOrbRecipe, ModItems.BLESSED_ORB.get());
-
-        List<Item> umbrakithOrbRecipeItems = Arrays.asList(ItemRegistry.ELDRITCH_PAGE.get(), Items.SCULK_CATALYST, Items.ECHO_SHARD, ItemRegistry.ARCANE_ESSENCE.get());
-        Set<Item> setUmbrakith = new HashSet<>(umbrakithOrbRecipeItems);
-        RitualRecipe umbrakithOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setUmbrakith);
-        ritualRecipes.put(umbrakithOrbRecipe, ModItems.OBSCURE_ORB.get());
-
-        List<Item> solarianOrbRecipeItems = Arrays.asList(ItemRegistry.FIRE_RUNE.get(), Items.BLAZE_POWDER, ItemRegistry.CINDER_ESSENCE.get(), ItemRegistry.ARCANE_ESSENCE.get());
-        Set<Item> setSolarian = new HashSet<>(solarianOrbRecipeItems);
-        RitualRecipe solarianOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setSolarian);
-        ritualRecipes.put(solarianOrbRecipe, ModItems.OBSCURE_ORB.get());
-
-        return ritualRecipes;
+        return Config.ritualRecipes;
     }
 }

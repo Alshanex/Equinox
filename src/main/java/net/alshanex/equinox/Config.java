@@ -1,12 +1,14 @@
 package net.alshanex.equinox;
 
+import io.redspace.ironsspellbooks.registries.ItemRegistry;
+import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.util.RitualRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -25,9 +27,9 @@ public class Config
             .defineListAllowEmpty(
                     "ritualRecipes",
                     List.of(
-                            "minecraft:diamond;minecraft:apple,minecraft:stone,minecraft:stick,minecraft:iron_ingot;minecraft:nether_star",
-                            "equinox:empty_orb;irons_spellbooks:blood_vial,minecraft:spider_eye,minecraft:fermented_spider_eye;equinox:corrupted_orb",
-                            "minecraft:diamond;irons_spellbooks:blood_vial;equinox:corrupted_orb"
+                            "minecraft:diamond;minecraft:apple,minecraft:stone,minecraft:stick,minecraft:iron_ingot;minecraft:emerald",
+                            "minecraft:diamond;irons_spellbooks:blood_vial,minecraft:spider_eye,minecraft:fermented_spider_eye;minecraft:apple",
+                            "minecraft:diamond;irons_spellbooks:blood_vial;minecraft:apple"
                     ),
                     obj -> obj instanceof String
             );
@@ -36,9 +38,12 @@ public class Config
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
-    public static void loadConfigRecipes() {
-        ritualRecipes.clear();
-        loadRitualRecipes();
+    @SubscribeEvent
+    public static void onLoad(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            ritualRecipes.clear();
+            loadRitualRecipes();
+        });
     }
 
     private static void loadRitualRecipes() {
@@ -75,5 +80,25 @@ public class Config
             RitualRecipe ritualRecipe = new RitualRecipe(centralItem, inputSet);
             ritualRecipes.put(ritualRecipe, outputItem);
         }
+
+        List<Item> fallenOrbRecipeItems = Arrays.asList(ItemRegistry.BLOOD_VIAL.get(), Items.WITHER_SKELETON_SKULL, ItemRegistry.BLOOD_RUNE.get(), ItemRegistry.ARCANE_ESSENCE.get());
+        Set<Item> setFallen = new HashSet<>(fallenOrbRecipeItems);
+        RitualRecipe fallenOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setFallen);
+        ritualRecipes.put(fallenOrbRecipe, ModItems.CORRUPTED_ORB.get());
+
+        List<Item> celestialOrbRecipeItems = Arrays.asList(ItemRegistry.DIVINE_PEARL.get(), ItemRegistry.PROTECTION_RUNE.get(), ItemRegistry.HOLY_RUNE.get(), ItemRegistry.ARCANE_ESSENCE.get());
+        Set<Item> setCelestial = new HashSet<>(celestialOrbRecipeItems);
+        RitualRecipe celestialOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setCelestial);
+        ritualRecipes.put(celestialOrbRecipe, ModItems.BLESSED_ORB.get());
+
+        List<Item> umbrakithOrbRecipeItems = Arrays.asList(ItemRegistry.ELDRITCH_PAGE.get(), Items.SCULK_CATALYST, Items.ECHO_SHARD, ItemRegistry.ARCANE_ESSENCE.get());
+        Set<Item> setUmbrakith = new HashSet<>(umbrakithOrbRecipeItems);
+        RitualRecipe umbrakithOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setUmbrakith);
+        ritualRecipes.put(umbrakithOrbRecipe, ModItems.OBSCURE_ORB.get());
+
+        List<Item> solarianOrbRecipeItems = Arrays.asList(ItemRegistry.FIRE_RUNE.get(), Items.BLAZE_POWDER, ItemRegistry.CINDER_ESSENCE.get(), ItemRegistry.ARCANE_ESSENCE.get());
+        Set<Item> setSolarian = new HashSet<>(solarianOrbRecipeItems);
+        RitualRecipe solarianOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setSolarian);
+        ritualRecipes.put(solarianOrbRecipe, ModItems.OBSCURE_ORB.get());
     }
 }
