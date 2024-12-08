@@ -1,5 +1,6 @@
 package net.alshanex.equinox.util;
 
+import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.block.pedestal.PedestalTile;
 import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import net.alshanex.equinox.Config;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -83,9 +85,23 @@ public class RitualHelper {
         } else if (orb == ModItems.PLASMATIC_ORB.get()){
             return ParticleRegistry.FIRE_PARTICLE.get();
         } else if (orb == ModItems.OBSCURE_ORB.get()){
-            return ParticleRegistry.FIRE_PARTICLE.get();
+            return ParticleRegistry.FIREFLY_PARTICLE.get();
         } else {
             return ParticleTypes.ASH;
+        }
+    }
+
+    public static Vector3f getColorForCircle(ParticleOptions particles){
+        if(particles == ParticleRegistry.BLOOD_PARTICLE.get()){
+            return SchoolRegistry.BLOOD.get().getTargetingColor();
+        } else if(particles == ParticleRegistry.WISP_PARTICLE.get()){
+            return SchoolRegistry.HOLY.get().getTargetingColor();
+        } else if(particles == ParticleRegistry.FIRE_PARTICLE.get()){
+            return SchoolRegistry.FIRE.get().getTargetingColor();
+        } else if(particles == ParticleRegistry.FIREFLY_PARTICLE.get()){
+            return SchoolRegistry.ELDRITCH.get().getTargetingColor();
+        } else {
+            return SchoolRegistry.EVOCATION.get().getTargetingColor();
         }
     }
 

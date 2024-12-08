@@ -99,6 +99,6 @@ public class Config
         List<Item> solarianOrbRecipeItems = Arrays.asList(ItemRegistry.FIRE_RUNE.get(), Items.BLAZE_POWDER, ItemRegistry.CINDER_ESSENCE.get(), ItemRegistry.ARCANE_ESSENCE.get());
         Set<Item> setSolarian = new HashSet<>(solarianOrbRecipeItems);
         RitualRecipe solarianOrbRecipe = new RitualRecipe(ModItems.EMPTY_ORB.get(), setSolarian);
-        ritualRecipes.put(solarianOrbRecipe, ModItems.OBSCURE_ORB.get());
+        ritualRecipes.put(solarianOrbRecipe, ModItems.PLASMATIC_ORB.get());
     }
 }

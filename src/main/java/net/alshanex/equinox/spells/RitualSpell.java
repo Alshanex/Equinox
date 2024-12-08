@@ -122,10 +122,10 @@ public class RitualSpell extends AbstractSpell {
         this.counter++;
         if (playerMagicData != null && (playerMagicData.getCastDurationRemaining() + 1) % 10 == 0 && this.counter < 180) {
             for (PedestalTile pedestal : this.surroundingPedestals) {
-                MagicManager.spawnParticles(level, new BlastwaveParticleOptions(SchoolRegistry.EVOCATION.get().getTargetingColor(), 1f), pedestal.getBlockPos().getX() + .5f, pedestal.getBlockPos().getY() + 1f, pedestal.getBlockPos().getZ() + .5f, 1, 0, 0, 0, 0, true);
+                MagicManager.spawnParticles(level, new BlastwaveParticleOptions(RitualHelper.getColorForCircle(this.particles), 1f), pedestal.getBlockPos().getX() + .5f, pedestal.getBlockPos().getY() + 1f, pedestal.getBlockPos().getZ() + .5f, 1, 0, 0, 0, 0, true);
                 CylinderParticleManager.spawnParticlesAtPos(level, pedestal.getBlockPos().above(), 30, this.particles, CylinderParticleManager.ParticleDirection.UPWARD, .5f, 1, 0);
             }
-            MagicManager.spawnParticles(level, new BlastwaveParticleOptions(SchoolRegistry.EVOCATION.get().getTargetingColor(), 1f), this.ritualPedestal.getBlockPos().getX() + .5f, this.ritualPedestal.getBlockPos().getY() + 1f, this.ritualPedestal.getBlockPos().getZ() + .5f, 1, 0, 0, 0, 0, true);
+            MagicManager.spawnParticles(level, new BlastwaveParticleOptions(RitualHelper.getColorForCircle(this.particles), 1f), this.ritualPedestal.getBlockPos().getX() + .5f, this.ritualPedestal.getBlockPos().getY() + 1f, this.ritualPedestal.getBlockPos().getZ() + .5f, 1, 0, 0, 0, 0, true);
             CylinderParticleManager.spawnParticlesAtPos(level, this.ritualPedestal.getBlockPos().above(), 10, this.particles, CylinderParticleManager.ParticleDirection.UPWARD, .1f, 2, 0);
         }
         if(this.counter == 180){

@@ -20,5 +20,9 @@
   "item.equinox.empty_orb": "Empty Orb",
 
   "curios.identifier.orb": "Orb",
-  "curios.modifiers.orb": "When equipped as Orb:"
+  "curios.modifiers.orb": "When equipped as Orb:",
+
+  "spell.equinox.orb_ritual": "Ritual Casting",
+
+  "spell.equinox.orb_ritual.guide": "This spell allows you to perform an ancient ritual alongside some pedestals to transform items in other different ones."
 }
