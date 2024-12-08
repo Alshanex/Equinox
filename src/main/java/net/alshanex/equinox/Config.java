@@ -26,7 +26,8 @@ public class Config
                     "ritualRecipes",
                     List.of(
                             "minecraft:diamond;minecraft:apple,minecraft:stone,minecraft:stick,minecraft:iron_ingot;minecraft:nether_star",
-                            "equinox:empty_orb;irons_spellbooks:blood_vial,minecraft:spider_eye,minecraft:fermented_spider_eye,minecraft:poisonous_potato;equinox:corrupted_orb"
+                            "equinox:empty_orb;irons_spellbooks:blood_vial,minecraft:spider_eye,minecraft:fermented_spider_eye;equinox:corrupted_orb",
+                            "minecraft:diamond;irons_spellbooks:blood_vial;equinox:corrupted_orb"
                     ),
                     obj -> obj instanceof String
             );
@@ -60,7 +61,7 @@ public class Config
                     .map(input -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(input)))
                     .collect(Collectors.toSet());
 
-            if (inputSet.size() != 4) {
+            if (inputSet.size() > 4 || inputSet.isEmpty()) {
                 EquinoxMod.LOGGER.debug("Invalid input items in recipe: " + parts[1]);
                 continue;
             }

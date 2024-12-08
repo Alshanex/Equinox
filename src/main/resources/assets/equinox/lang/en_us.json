@@ -11,7 +11,6 @@
 
   "ui.equinox.not_valid_pedestal": "The targeted block is not a pedestal block",
   "ui.equinox.not_valid_orb": "The pedestal needs to have an empty orb",
-  "ui.equinox.not_enough_pedestals": "You need 4 pedestals surrounding the central one to cast the ritual",
   "ui.equinox.not_valid_orb_recipe": "Not a valid orb recipe",
 
   "item.equinox.blessed_orb": "Blessed Orb",

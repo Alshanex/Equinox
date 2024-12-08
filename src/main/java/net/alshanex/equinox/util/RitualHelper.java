@@ -14,6 +14,7 @@ import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,34 +39,9 @@ public class RitualHelper {
 
         Map<RitualRecipe, Item> recipes = RitualHelper.getRitualRecipes();
 
-        BlockPos origin = centralPedestal.getBlockPos();
+        List<PedestalTile> surroundingPedestals = RitualHelper.getSurroundingPedestals(centralPedestal, level);
 
-        BlockPos[] offsets = {
-                origin.north(2),
-                origin.south(2),
-                origin.east(2),
-                origin.west(2)
-        };
-
-        List<PedestalTile> pedestals = new ArrayList<>();
-        List<Item> pedestalItems = new ArrayList<>();
-
-        for (BlockPos pos : offsets) {
-            BlockEntity entity = level.getBlockEntity(pos);
-            if (entity instanceof PedestalTile pedestal) {
-                pedestals.add(pedestal);
-                pedestalItems.add(pedestal.getHeldItem().getItem());
-            }
-        }
-
-        if(pedestals.size() < 4){
-            if (caster instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.equinox.not_enough_pedestals").withStyle(ChatFormatting.RED)));
-            }
-            return false;
-        }
-
-        Set<Item> pedestalSet = new HashSet<>(pedestalItems);
+        Set<Item> pedestalSet = RitualHelper.getItemsFromPedestals(surroundingPedestals);
         RitualRecipe recipe = new RitualRecipe(centralPedestal.getHeldItem().getItem(), pedestalSet);
 
         if(recipes.get(recipe) != null){
@@ -93,7 +69,9 @@ public class RitualHelper {
         for (BlockPos pos : offsets) {
             BlockEntity entity = level.getBlockEntity(pos);
             if (entity instanceof PedestalTile pedestal) {
-                pedestals.add(pedestal);
+                if(pedestal.getHeldItem() != ItemStack.EMPTY){
+                    pedestals.add(pedestal);
+                }
             }
         }
         return pedestals;
@@ -113,29 +91,23 @@ public class RitualHelper {
         }
     }
 
+    public static Set<Item> getItemsFromPedestals(List<PedestalTile> surroundingPedestals){
+        List<Item> pedestalItems = new ArrayList<>();
+
+        for (PedestalTile pedestal : surroundingPedestals) {
+            pedestalItems.add(pedestal.getHeldItem().getItem());
+        }
+
+        return new HashSet<>(pedestalItems);
+    }
+
     public static Item getOrbForRecipe(Level level, PedestalTile centerPedestal) {
 
         Map<RitualRecipe, Item> recipes = RitualHelper.getRitualRecipes();
 
-        BlockPos origin = centerPedestal.getBlockPos();
+        List<PedestalTile> surroundingPedestals = RitualHelper.getSurroundingPedestals(centerPedestal, level);
 
-        BlockPos[] offsets = {
-                origin.north(2),
-                origin.south(2),
-                origin.east(2),
-                origin.west(2)
-        };
-
-        List<Item> pedestalItems = new ArrayList<>();
-
-        for (BlockPos pos : offsets) {
-            BlockEntity entity = level.getBlockEntity(pos);
-            if (entity instanceof PedestalTile pedestal) {
-                pedestalItems.add(pedestal.getHeldItem().getItem());
-            }
-        }
-
-        Set<Item> pedestalSet = new HashSet<>(pedestalItems);
+        Set<Item> pedestalSet = RitualHelper.getItemsFromPedestals(surroundingPedestals);
         RitualRecipe recipe = new RitualRecipe(centerPedestal.getHeldItem().getItem(), pedestalSet);
 
         return recipes.get(recipe);
