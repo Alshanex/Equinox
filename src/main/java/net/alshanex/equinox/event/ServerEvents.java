@@ -2,8 +2,13 @@ package net.alshanex.equinox.event;
 
 import io.redspace.ironsspellbooks.api.events.SpellPreCastEvent;
 import io.redspace.ironsspellbooks.api.magic.SpellSelectionManager;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.api.spells.SpellData;
+import io.redspace.ironsspellbooks.config.ServerConfigs;
+import io.redspace.ironsspellbooks.damage.SpellDamageSource;
+import io.redspace.ironsspellbooks.entity.spells.HealingAoe;
+import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.datagen.EntityTagGenerator;
 import net.alshanex.equinox.fame.*;
@@ -11,20 +16,32 @@ import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.item.Orb;
 import net.alshanex.equinox.network.*;
 import net.alshanex.equinox.util.EUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SculkVeinBlock;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Arrays;
@@ -118,6 +135,169 @@ public class ServerEvents {
                 float backfireDamage = player.getMaxHealth() * .10f;
                 player.hurt(player.level().damageSources().drown(), backfireDamage);
                 event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDeathEvent(LivingDeathEvent event){
+        if(event.getEntity() instanceof ServerPlayer player){
+            if(EUtils.hasItemInOrbSlot(player, ModItems.BLESSED_ORB.get())){
+                player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 700){
+                        event.setCanceled(true);
+                        player.setHealth(player.getMaxHealth());
+                        player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600, 4, false, false));
+                        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 0, false, false));
+                        fame.subFame((int) (fame.getFame() * .25));
+                        ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
+                    }
+                });
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if(event.player instanceof ServerPlayer player){
+            if(EUtils.hasItemInOrbSlot(player, ModItems.PLASMATIC_ORB.get())){
+                player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 700){
+                        player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2, 0, false, false));
+                    }
+                });
+            }
+            if(EUtils.hasItemInOrbSlot(player, ModItems.OBSCURE_ORB.get())){
+                player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 700){
+                        BlockPos currentBlockPos = player.blockPosition();
+                        BlockPos blockBelowPos = player.blockPosition().below();
+                        Block blockBelow = player.level().getBlockState(blockBelowPos).getBlock();
+                        Block currentBlock = player.level().getBlockState(currentBlockPos).getBlock();
+                        if(EUtils.isSculkBlock(blockBelow) || currentBlock instanceof SculkVeinBlock){
+                            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 2, 1, false, false));
+                            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2, 0, false, false));
+                            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2, 0, false, false));
+                        }
+                        if(player.hasEffect(MobEffects.BLINDNESS) || player.hasEffect(MobEffects.DARKNESS)){
+                            player.removeEffect(MobEffects.DARKNESS);
+                            player.removeEffect(MobEffects.BLINDNESS);
+                        }
+                    }
+                    if(fame.getFame() >= 900){
+                        if(!player.level().isClientSide){
+                            double radius = 10.0;
+
+                            AABB expandedArea = player.getBoundingBox().inflate(radius, radius, radius);
+
+                            player.level().getEntitiesOfClass(Warden.class, expandedArea).forEach(warden -> {
+                                if (warden.getTarget() == player) {
+                                    warden.setTarget(null);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityAttackEvent(LivingAttackEvent event){
+        if(event.getEntity() instanceof ServerPlayer player){
+            if(EUtils.hasItemInOrbSlot(player, ModItems.CORRUPTED_ORB.get())){
+                player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 700){
+                        if(event.getSource().getEntity() instanceof LivingEntity entity){
+                            double random = Math.random();
+
+                            if (random < 0.05) {
+                                entity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
+                            }
+
+                            random = Math.random();
+
+                            if (random < 0.05) {
+                                entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0));
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        if(event.getSource().getEntity() instanceof ServerPlayer player){
+            if(EUtils.hasItemInOrbSlot(player, ModItems.CORRUPTED_ORB.get())){
+                player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 500){
+                        float initialDamage = event.getAmount();
+                        event.getEntity().hurt(SpellDamageSource.source(player, SpellRegistry.BLOOD_SLASH_SPELL.get()), initialDamage * .1f);
+                        double random = Math.random();
+
+                        if (random < 0.05) {
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
+                        }
+
+                        random = Math.random();
+
+                        if (random < 0.05) {
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0));
+                        }
+                        event.getEntity().invulnerableTime = 0;
+                    }
+                });
+            }
+            if(EUtils.hasItemInOrbSlot(player, ModItems.BLESSED_ORB.get())){
+                player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 500){
+                        float initialDamage = event.getAmount();
+                        event.getEntity().hurt(SpellDamageSource.source(player, SpellRegistry.DIVINE_SMITE_SPELL.get()), initialDamage * .1f);
+                        double random = Math.random();
+
+                        if (random < 0.05) {
+                            HealingAoe aoeEntity = new HealingAoe(player.level());
+                            aoeEntity.setOwner(player);
+                            aoeEntity.setCircular();
+                            aoeEntity.setRadius(3);
+                            aoeEntity.setDuration(100);
+                            aoeEntity.setDamage(event.getAmount() * .05f);
+                            aoeEntity.setPos(player.position());
+                            player.level().addFreshEntity(aoeEntity);
+
+                            TargetedAreaEntity visualEntity = TargetedAreaEntity.createTargetAreaEntity(player.level(), player.position(), 3, 0xc80000);
+                            visualEntity.setDuration(100);
+                            visualEntity.setOwner(aoeEntity);
+                        }
+                        event.getEntity().invulnerableTime = 0;
+                    }
+                });
+            }
+            if(EUtils.hasItemInOrbSlot(player, ModItems.OBSCURE_ORB.get())){
+                player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 500){
+                        float initialDamage = event.getAmount();
+                        event.getEntity().hurt(SpellDamageSource.source(player, SpellRegistry.SCULK_TENTACLES_SPELL.get()), initialDamage * .1f);
+                        double random = Math.random();
+
+                        if (random <= 0.25) {
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.DARKNESS, 100, 0));
+                        }
+                        event.getEntity().invulnerableTime = 0;
+                    }
+                });
+            }
+            if(EUtils.hasItemInOrbSlot(player, ModItems.PLASMATIC_ORB.get())){
+                player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
+                    if(fame.getFame() >= 500){
+                        float initialDamage = event.getAmount();
+                        event.getEntity().hurt(SpellDamageSource.source(player, SpellRegistry.FIREBALL_SPELL.get()), initialDamage * .1f);
+                        double random = Math.random();
+
+                        if (random <= 0.25) {
+                            event.getEntity().setRemainingFireTicks(80);
+                        }
+                        event.getEntity().invulnerableTime = 0;
+                    }
+                });
             }
         }
     }
