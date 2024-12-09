@@ -477,7 +477,7 @@ public class ServerEvents {
                     }
                     if(event.getEntity().getType().is(EntityTagGenerator.UMBRAKITH_FACTION_BOSSES)){
                         player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
-                            fame.addFame(900);
+                            fame.addFame(5);
                             ModPackets.sendToPlayer(new SyncSolarianFamePackage(fame.getFame()), player);
                         });
                     }
