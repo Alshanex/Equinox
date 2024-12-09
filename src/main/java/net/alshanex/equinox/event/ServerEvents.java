@@ -164,6 +164,7 @@ public class ServerEvents {
                             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 2, 1, false, false));
                             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2, 0, false, false));
                             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2, 0, false, false));
+                            player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 2, 0, false, false));
                         }
                         if(player.hasEffect(MobEffects.BLINDNESS) || player.hasEffect(MobEffects.DARKNESS)){
                             player.removeEffect(MobEffects.DARKNESS);
@@ -251,13 +252,13 @@ public class ServerEvents {
                                 aoeEntity.setOwner(player);
                                 aoeEntity.setCircular();
                                 aoeEntity.setRadius(3);
-                                aoeEntity.setDuration(100);
+                                aoeEntity.setDuration(60);
                                 aoeEntity.setDamage(event.getAmount() * .05f);
                                 aoeEntity.setPos(player.position());
                                 player.level().addFreshEntity(aoeEntity);
 
                                 TargetedAreaEntity visualEntity = TargetedAreaEntity.createTargetAreaEntity(player.level(), player.position(), 3, 0xc80000);
-                                visualEntity.setDuration(100);
+                                visualEntity.setDuration(60);
                                 visualEntity.setOwner(aoeEntity);
                             }
                         }
@@ -300,6 +301,7 @@ public class ServerEvents {
                             player.setHealth(player.getMaxHealth());
                             player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600, 4, false, false));
                             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 600, 0, false, false));
+                            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 600, 2, false, false));
                             fame.subFame((int) (fame.getFame() * .25));
                             ModPackets.sendToPlayer(new SyncCelestialFamePackage(fame.getFame()), player);
                         }
