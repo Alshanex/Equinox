@@ -33,7 +33,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -129,7 +131,7 @@ public class RitualSpell extends AbstractSpell {
             CylinderParticleManager.spawnParticlesAtPos(level, this.ritualPedestal.getBlockPos().above(), 10, this.particles, CylinderParticleManager.ParticleDirection.UPWARD, .1f, 2, 0);
         }
         if(this.counter == 180){
-            completeRitual(entity);
+            completeRitual(entity, level);
         }
     }
 
@@ -143,22 +145,17 @@ public class RitualSpell extends AbstractSpell {
         super.onServerCastComplete(level, spellLevel, entity, playerMagicData, cancelled);
     }
 
-    public void completeRitual(LivingEntity caster) {
+    public void completeRitual(LivingEntity caster, Level level) {
         for (PedestalTile pedestal : this.surroundingPedestals) {
+            BlockState prevState = pedestal.getBlockState();
             pedestal.setHeldItem(ItemStack.EMPTY);
-            if(caster instanceof ServerPlayer player){
-                ClientboundBlockEntityDataPacket updatedPacket = pedestal.getUpdatePacket();
-                if(updatedPacket != null){
-                    player.connection.send(updatedPacket);
-                }
-            }
+            BlockState nextState = pedestal.getBlockState();
+            level.sendBlockUpdated(pedestal.getBlockPos(), prevState, nextState, Block.UPDATE_CLIENTS);
         }
+        BlockState prevState = this.ritualPedestal.getBlockState();
         this.ritualPedestal.setHeldItem(new ItemStack(this.ritualResult));
-        if(caster instanceof ServerPlayer player){
-            ClientboundBlockEntityDataPacket updatedPacket = this.ritualPedestal.getUpdatePacket();
-            if(updatedPacket != null){
-                player.connection.send(updatedPacket);
-            }
-        }
+        BlockState nextState = this.ritualPedestal.getBlockState();
+        level.sendBlockUpdated(this.ritualPedestal.getBlockPos(), prevState, nextState, Block.UPDATE_CLIENTS);
+
     }
 }
