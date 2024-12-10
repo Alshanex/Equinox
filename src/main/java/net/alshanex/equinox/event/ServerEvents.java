@@ -216,7 +216,7 @@ public class ServerEvents {
                     player.getCapability(SolarianFameProvider.SOLARIAN_FAME).ifPresent(fame -> {
                         if(fame.getFame() >= 900){
                             if(event.getSource().typeHolder().is(ISSDamageTypes.FIRE_MAGIC) || event.getSource().typeHolder().is(ISSDamageTypes.FIRE_FIELD)) {
-                                event.setCanceled(true);
+                                event.setAmount(event.getAmount() / 2);
                             }
                         }
                     });
