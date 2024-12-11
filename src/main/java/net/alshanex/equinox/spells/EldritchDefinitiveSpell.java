@@ -4,7 +4,10 @@ import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
+import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.entity.spells.void_tentacle.VoidTentacle;
+import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.AbstractEldritchSpell;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.entity.EldritchClone;
@@ -20,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,8 +32,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -65,6 +72,16 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
     @Override
     public ResourceLocation getSpellResource() {
         return spellId;
+    }
+
+    @Override
+    public Optional<SoundEvent> getCastStartSound() {
+        return Optional.of(SoundRegistry.VOID_TENTACLES_START.get());
+    }
+
+    @Override
+    public Optional<SoundEvent> getCastFinishSound() {
+        return Optional.of(SoundRegistry.VOID_TENTACLES_FINISH.get());
     }
 
     @Override
@@ -139,6 +156,26 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
             level.addFreshEntity(clone);
         }
 
+        float tentacles = 5;
+        for (int i = 0; i < tentacles; i++) {
+            Vec3 random = new Vec3(Utils.getRandomScaled(1), Utils.getRandomScaled(1), Utils.getRandomScaled(1));
+            Vec3 spawn = entity.position().add(new Vec3(0, 0, 1.3).yRot(((6.281f / tentacles) * i))).add(random);
+
+            spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
+            if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
+                VoidTentacle tentacle = new VoidTentacle(level, entity, getDamage(spellLevel, entity));
+                tentacle.moveTo(spawn);
+                tentacle.setYRot(Utils.random.nextInt(360));
+                level.addFreshEntity(tentacle);
+            }
+        }
+
+        level.gameEvent(null, GameEvent.ENTITY_ROAR, center);
+
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);
+    }
+
+    private float getDamage(int spellLevel, LivingEntity entity) {
+        return getSpellPower(spellLevel, entity);
     }
 }

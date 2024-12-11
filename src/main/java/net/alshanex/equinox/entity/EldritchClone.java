@@ -14,6 +14,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,6 +36,7 @@ public class EldritchClone extends PathfinderMob implements MagicSummon {
     public EldritchClone(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         xpReward = 0;
+        this.setHealth(1f);
     }
 
     public EldritchClone(Level level, LivingEntity owner) {
@@ -42,6 +45,7 @@ public class EldritchClone extends PathfinderMob implements MagicSummon {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             this.setItemSlot(slot, this.getSummoner().getItemBySlot(slot));
         }
+        this.setHealth(1f);
     }
 
     protected LivingEntity cachedSummoner;
@@ -82,10 +86,10 @@ public class EldritchClone extends PathfinderMob implements MagicSummon {
 
     @Override
     public void die(DamageSource pDamageSource) {
+        this.addEffect(new MobEffectInstance(MobEffectRegistry.TRUE_INVISIBILITY.get(), 60, 0, false, false));
         if (!level().isClientSide) {
             MagicManager.spawnParticles(level(), ParticleTypes.POOF, getX(), getY(), getZ(), 25, .4, .8, .4, .03, false);
         }
-
         super.die(pDamageSource);
     }
 
