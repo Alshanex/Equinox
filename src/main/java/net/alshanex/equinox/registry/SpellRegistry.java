@@ -2,10 +2,8 @@ package net.alshanex.equinox.registry;
 
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.alshanex.equinox.EquinoxMod;
+import net.alshanex.equinox.spells.EldritchDefinitiveSpell;
 import net.alshanex.equinox.spells.RitualSpell;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -21,4 +19,5 @@ public class SpellRegistry {
     }
 
     public static final RegistryObject<AbstractSpell> RITUAL = registerSpell(new RitualSpell());
+    public static final RegistryObject<AbstractSpell> ELDRITCH_DEFINITIVE = registerSpell(new EldritchDefinitiveSpell());
 }

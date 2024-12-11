@@ -421,7 +421,7 @@ public class ServerEvents {
                 if(EUtils.hasItemInOrbSlot(player, ModItems.OBSCURE_ORB.get())){
                     if(event.getEntity().getType().is(EntityTagGenerator.SOLARIAN_FACTION_ENTITIES)){
                         player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
-                            fame.addFame(1);
+                            fame.addFame(900);
                             ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
                         });
                     }

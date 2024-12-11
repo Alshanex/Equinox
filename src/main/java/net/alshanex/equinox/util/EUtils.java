@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.io.BufferedReader;
@@ -162,5 +163,48 @@ public class EUtils {
     public static Boolean isSculkBlock(Block block){
         return block instanceof SculkBlock || block instanceof SculkCatalystBlock || block instanceof SculkVeinBlock
                 || block instanceof SculkSensorBlock || block instanceof SculkShriekerBlock;
+    }
+
+    public static Set<Block> nonSwappableBlocks(){
+        Set<Block> excludedBlocks = new HashSet<>();
+
+        for (Block block : ForgeRegistries.BLOCKS) {
+            if (block instanceof TrapDoorBlock || block instanceof DoorBlock || block instanceof SignBlock || block instanceof BedBlock
+                    || block instanceof AbstractBannerBlock || block instanceof AbstractCandleBlock || block == Blocks.GLASS_PANE || block instanceof StainedGlassPaneBlock
+                    || block instanceof AbstractChestBlock<?> || block instanceof BarrierBlock || block instanceof AbstractSkullBlock
+                    || block instanceof CoralBlock || block instanceof CoralFanBlock || block instanceof CoralPlantBlock
+                    || block instanceof CoralWallFanBlock || block instanceof PressurePlateBlock || block instanceof RailBlock
+                    || block instanceof BeehiveBlock || block instanceof BellBlock || block instanceof BrewingStandBlock
+                    || block instanceof ButtonBlock || block instanceof CampfireBlock || block instanceof ChorusPlantBlock
+                    || block instanceof StructureBlock || block instanceof CakeBlock || block instanceof CommandBlock
+                    || block instanceof ShulkerBoxBlock || block instanceof EnchantmentTableBlock || block instanceof CactusBlock
+                    || block instanceof BeaconBlock || block instanceof FlowerPotBlock || block instanceof EndGatewayBlock
+                    || block instanceof EndPortalBlock || block instanceof EndRodBlock || block instanceof NetherPortalBlock
+                    || block instanceof EndPortalFrameBlock || block instanceof RedStoneWireBlock || block instanceof HopperBlock
+                    || block instanceof ComparatorBlock || block instanceof RepeaterBlock || block instanceof VineBlock
+                    || block instanceof SpawnerBlock || block instanceof LadderBlock || block instanceof RespawnAnchorBlock
+                    || block instanceof LeverBlock || block instanceof DaylightDetectorBlock || block instanceof ChorusFlowerBlock
+                    || block instanceof WaterlilyBlock || block instanceof SculkShriekerBlock || block instanceof TripWireHookBlock
+                    || block instanceof SculkSensorBlock || block instanceof DragonEggBlock || block instanceof TripWireBlock
+                    || block instanceof TallSeagrassBlock || block instanceof  KelpPlantBlock || block instanceof TwistingVinesBlock
+                    || block instanceof BambooStalkBlock || block instanceof BambooSaplingBlock || block instanceof SugarCaneBlock) {
+                excludedBlocks.add(block);
+            }
+        }
+
+        return excludedBlocks;
+    }
+
+    public static Set<Block> swappableBlocks(){
+        Set<Block> excludedBlocks = new HashSet<>();
+
+        for (Block block : ForgeRegistries.BLOCKS) {
+            if (block instanceof TorchBlock || block instanceof CarpetBlock
+                    || block instanceof BushBlock || block instanceof TallGrassBlock || block instanceof GlowLichenBlock) {
+                excludedBlocks.add(block);
+            }
+        }
+
+        return excludedBlocks;
     }
 }

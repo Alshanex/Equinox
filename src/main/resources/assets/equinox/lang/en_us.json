@@ -13,6 +13,7 @@
   "ui.equinox.not_valid_orb": "The pedestal needs to have an empty orb",
   "ui.equinox.not_valid_orb_recipe": "Not a valid orb recipe",
   "ui.equinox.ritual_recipe_jei": "Ritual Casting",
+  "ui.equinox.cant_cast_spell_fame": "You don't have enough fame to cast this spell",
 
   "item.equinox.blessed_orb": "Blessed Orb",
   "item.equinox.corrupted_orb": "Corrupted Orb",
