@@ -11,6 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 public class CommonSetup {
     @SubscribeEvent
     public static void onAttributeCreate(EntityAttributeCreationEvent event) {
-        event.put(EntityRegistry.ELDRITCH_CLONE.get(), EldritchClone.createAttributes().build());
+        event.put(EntityRegistry.ELDRITCH_CLONE.get(), EldritchClone.createCloneAttributes().build());
     }
 }

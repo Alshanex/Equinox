@@ -6,7 +6,9 @@ import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.entity.spells.void_tentacle.VoidTentacle;
+import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.spells.eldritch.AbstractEldritchSpell;
 import net.alshanex.equinox.EquinoxMod;
@@ -22,11 +24,14 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -105,6 +110,38 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         BlockPos center = entity.blockPosition();
 
+        createSculk(center, level);
+
+        entity.addEffect(new MobEffectInstance(EffectRegistry.ELDRITCH_DEFINITIVE.get(), 600, 0, false, false));
+
+        summonWardens(level, entity, center);
+
+        level.gameEvent(null, GameEvent.ENTITY_ROAR, center);
+
+        super.onCast(level, spellLevel, entity, castSource, playerMagicData);
+    }
+
+    private void summonWardens(Level level, LivingEntity entity, BlockPos center){
+        level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true)).forEach(target -> {
+            if (target.distanceToSqr(entity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, entity)) {
+                Vec3 random = new Vec3(Utils.getRandomScaled(1), Utils.getRandomScaled(1), Utils.getRandomScaled(1));
+                Vec3 spawn = entity.position().add(new Vec3(0, 0, 1.3).yRot(((6.281f / 5) * 5))).add(random);
+
+                spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
+                if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
+                    EldritchClone clone = new EldritchClone(level, entity, target);
+
+                    clone.setPos(entity.getX() + 1, entity.getY(), entity.getZ() + 1);
+                    clone.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(center), MobSpawnType.TRIGGERED, null, null);
+                    level.addFreshEntity(clone);
+                    clone.getAngerManagement().increaseAnger(target, 150);
+                    clone.setAttackTarget(target);
+                }
+            }
+        });
+    }
+
+    private void createSculk(BlockPos center, Level level){
         int radius = 10;
         Set<Block> excludedBlocks = EUtils.nonSwappableBlocks();
         Set<Block> swappableBlocks = EUtils.swappableBlocks();
@@ -138,44 +175,5 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
                 }
             }
         }
-
-        entity.addEffect(new MobEffectInstance(EffectRegistry.ELDRITCH_DEFINITIVE.get(), 600, 0, false, false));
-
-        for(int i = 0; i < 2; i++){
-            double randomX = entity.getX() + (Math.random() * 2 * radius - radius);
-            double randomZ = entity.getZ() + (Math.random() * 2 * radius - radius);
-            double randomY = entity.getY();
-
-            EldritchClone clone = new EldritchClone(level, entity);
-
-            if (!level.isClientSide) {
-                MagicManager.spawnParticles(level, ParticleTypes.POOF, randomX, randomY, randomZ, 25, .4, .8, .4, .03, false);
-            }
-
-            clone.setPos(randomX, randomY, randomZ);
-            level.addFreshEntity(clone);
-        }
-
-        float tentacles = 5;
-        for (int i = 0; i < tentacles; i++) {
-            Vec3 random = new Vec3(Utils.getRandomScaled(1), Utils.getRandomScaled(1), Utils.getRandomScaled(1));
-            Vec3 spawn = entity.position().add(new Vec3(0, 0, 1.3).yRot(((6.281f / tentacles) * i))).add(random);
-
-            spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
-            if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
-                VoidTentacle tentacle = new VoidTentacle(level, entity, getDamage(spellLevel, entity));
-                tentacle.moveTo(spawn);
-                tentacle.setYRot(Utils.random.nextInt(360));
-                level.addFreshEntity(tentacle);
-            }
-        }
-
-        level.gameEvent(null, GameEvent.ENTITY_ROAR, center);
-
-        super.onCast(level, spellLevel, entity, castSource, playerMagicData);
-    }
-
-    private float getDamage(int spellLevel, LivingEntity entity) {
-        return getSpellPower(spellLevel, entity);
     }
 }

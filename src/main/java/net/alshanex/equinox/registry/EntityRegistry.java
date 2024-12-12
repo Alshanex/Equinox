@@ -19,7 +19,7 @@ public class EntityRegistry {
     }
 
     public static final RegistryObject<EntityType<EldritchClone>> ELDRITCH_CLONE =
-            ENTITIES.register("eldritch_clone", () -> EntityType.Builder.<EldritchClone>of(EldritchClone::new, MobCategory.MONSTER)
+            ENTITIES.register("eldritch_clone", () -> EntityType.Builder.<EldritchClone>of(EldritchClone::new, MobCategory.CREATURE)
                     .sized(.6f, 1.8f)
                     .clientTrackingRange(64)
                     .build(new ResourceLocation(EquinoxMod.MODID, "eldritch_clone").toString()));
