@@ -21,11 +21,11 @@ public class EldritchDefinitiveSpellEffect extends MagicMobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        if(!pLivingEntity.hasEffect(MobEffectRegistry.TRUE_INVISIBILITY.get())){
+        if(!pLivingEntity.hasEffect(MobEffectRegistry.TRUE_INVISIBILITY.get()) && !pLivingEntity.isOnFire()){
             pLivingEntity.addEffect(new MobEffectInstance(MobEffectRegistry.TRUE_INVISIBILITY.get(), 20, 0, false, false));
         }
-        pLivingEntity.level().getEntities(pLivingEntity, pLivingEntity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, pLivingEntity) && Utils.hasLineOfSight(pLivingEntity.level(), pLivingEntity, target, true)).forEach(target -> {
-            if (target instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(pLivingEntity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, pLivingEntity)) {
+        pLivingEntity.level().getEntities(pLivingEntity, pLivingEntity.getBoundingBox().inflate(5, 4, 5), (target) -> !DamageSources.isFriendlyFireBetween(target, pLivingEntity) && Utils.hasLineOfSight(pLivingEntity.level(), pLivingEntity, target, true)).forEach(target -> {
+            if (target instanceof LivingEntity livingEntity && livingEntity.distanceToSqr(pLivingEntity) < 5 * 5 && !DamageSources.isFriendlyFireBetween(target, pLivingEntity)) {
                 if(!livingEntity.hasEffect(MobEffects.DARKNESS)){
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 20, 0, false, false));
                 }
