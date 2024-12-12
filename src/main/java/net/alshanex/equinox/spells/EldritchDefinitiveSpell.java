@@ -131,7 +131,7 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
                 if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
                     EldritchClone clone = new EldritchClone(level, entity, target);
 
-                    clone.setPos(entity.getX() + 1, entity.getY(), entity.getZ() + 1);
+                    clone.setPos(spawn.x, spawn.y, spawn.z);
                     clone.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(center), MobSpawnType.TRIGGERED, null, null);
                     level.addFreshEntity(clone);
                     clone.getAngerManagement().increaseAnger(target, 150);
