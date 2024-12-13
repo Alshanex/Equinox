@@ -5,25 +5,33 @@ import io.redspace.ironsspellbooks.api.magic.SpellSelectionManager;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.api.spells.SpellData;
+import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.config.ServerConfigs;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
 import io.redspace.ironsspellbooks.entity.spells.HealingAoe;
 import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
+import io.redspace.ironsspellbooks.entity.spells.void_tentacle.VoidTentacle;
+import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.datagen.EntityTagGenerator;
+import net.alshanex.equinox.entity.EldritchClone;
 import net.alshanex.equinox.fame.*;
 import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.item.Orb;
 import net.alshanex.equinox.network.*;
+import net.alshanex.equinox.registry.EntityRegistry;
 import net.alshanex.equinox.util.EUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -33,7 +41,9 @@ import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SculkVeinBlock;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -191,7 +201,35 @@ public class ServerEvents {
 
     @SubscribeEvent
     public static void onEntityAttackEvent(LivingHurtEvent event){
-        if(event.getEntity() != null){
+        if(event.getSource().getEntity() != null){
+            if(event.getSource().getEntity().getType() == EntityRegistry.ELDRITCH_CLONE.get()){
+                EldritchClone entity = (EldritchClone) event.getSource().getEntity();
+                if(event.getEntity() != null && entity.getSummoner() != null){
+                    Vec3 center = event.getEntity().position();
+                    entity.level().playSound(entity.getSummoner() instanceof Player player ? player : null, center.x, center.y, center.z, SoundRegistry.VOID_TENTACLES_FINISH.get(), SoundSource.AMBIENT, 1, 1);
+
+                    float tentacles = 5;
+                    for (int i = 0; i < tentacles; i++) {
+                        Vec3 random = new Vec3(Utils.getRandomScaled(1), Utils.getRandomScaled(1), Utils.getRandomScaled(1));
+                        Vec3 spawn = center.add(new Vec3(0, 0, 1.3 * 2).yRot(((6.281f / tentacles) * i))).add(random);
+
+                        spawn = Utils.moveToRelativeGroundLevel(entity.level(), spawn, 8);
+                        if (!entity.level().getBlockState(BlockPos.containing(spawn).below()).isAir()) {
+                            VoidTentacle tentacle = new VoidTentacle(entity.level(), entity.getSummoner(), EUtils.getTentaclesSpellPower(4, entity.getSummoner()));
+                            tentacle.moveTo(spawn);
+                            tentacle.setYRot(Utils.random.nextInt(360));
+                            entity.level().addFreshEntity(tentacle);
+                        }
+                    }
+
+                    entity.level().gameEvent(null, GameEvent.ENTITY_ROAR, center);
+                }
+                if (!entity.level().isClientSide) {
+                    MagicManager.spawnParticles(entity.level(), ParticleTypes.POOF, entity.getX(), entity.getY(), entity.getZ(), 25, .4, .8, .4, .03, false);
+                    entity.discard();
+                }
+            }
+
             if(event.getEntity() instanceof ServerPlayer player){
                 if(EUtils.hasItemInOrbSlot(player, ModItems.CORRUPTED_ORB.get())){
                     player.getCapability(FallenFameProvider.FALLEN_FAME).ifPresent(fame -> {
@@ -421,7 +459,7 @@ public class ServerEvents {
                 if(EUtils.hasItemInOrbSlot(player, ModItems.OBSCURE_ORB.get())){
                     if(event.getEntity().getType().is(EntityTagGenerator.SOLARIAN_FACTION_ENTITIES)){
                         player.getCapability(UmbrakithFameProvider.UMBRAKITH_FAME).ifPresent(fame -> {
-                            fame.addFame(900);
+                            fame.addFame(1);
                             ModPackets.sendToPlayer(new SyncUmbrakithFamePackage(fame.getFame()), player);
                         });
                     }

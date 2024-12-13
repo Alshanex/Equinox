@@ -94,9 +94,6 @@ public class EldritchClone extends Warden implements MagicSummon {
 
         if (getSummoner() != null && getSummoner().hasEffect(EffectRegistry.ELDRITCH_DEFINITIVE.get())) {
             if(getCachedTarget() != null){
-                if(getCachedTarget() instanceof Mob mob){
-                    mob.setTarget(this);
-                }
                 this.increaseAngerAt(getCachedTarget());
             }
         } else {
@@ -150,6 +147,6 @@ public class EldritchClone extends Warden implements MagicSummon {
     }
 
     public static AttributeSupplier.Builder createCloneAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 500.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F).add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).add(Attributes.ATTACK_KNOCKBACK, 0D).add(Attributes.ATTACK_DAMAGE, 0D);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 500.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F).add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).add(Attributes.ATTACK_KNOCKBACK, 0D).add(Attributes.ATTACK_DAMAGE, 1.0D);
     }
 }

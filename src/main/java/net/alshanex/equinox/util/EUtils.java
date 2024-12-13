@@ -1,11 +1,14 @@
 package net.alshanex.equinox.util;
 
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.block.pedestal.PedestalBlock;
 import io.redspace.ironsspellbooks.block.pedestal.PedestalTile;
+import io.redspace.ironsspellbooks.config.ServerConfigs;
 import io.redspace.ironsspellbooks.registries.BlockRegistry;
 import io.redspace.ironsspellbooks.registries.EntityRegistry;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
@@ -21,6 +24,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +38,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.io.BufferedReader;
@@ -206,5 +211,20 @@ public class EUtils {
         }
 
         return excludedBlocks;
+    }
+
+    public static float getTentaclesSpellPower(int spellLevel, @Nullable Entity sourceEntity) {
+
+        double entitySpellPowerModifier = 1;
+        double entitySchoolPowerModifier = 1;
+
+        float configPowerModifier = (float) ServerConfigs.getSpellConfig(SpellRegistry.SCULK_TENTACLES_SPELL.get()).powerMultiplier();
+
+        if (sourceEntity instanceof LivingEntity livingEntity) {
+            entitySpellPowerModifier = (float) livingEntity.getAttributeValue(AttributeRegistry.SPELL_POWER.get());
+            entitySchoolPowerModifier = SpellRegistry.SCULK_TENTACLES_SPELL.get().getSchoolType().getPowerFor(livingEntity);
+        }
+
+        return (float) ((8 + 3 * (spellLevel - 1)) * entitySpellPowerModifier * entitySchoolPowerModifier * configPowerModifier);
     }
 }
