@@ -5,12 +5,8 @@ import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.Utils;
-import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.DamageSources;
-import io.redspace.ironsspellbooks.entity.spells.void_tentacle.VoidTentacle;
-import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
-import io.redspace.ironsspellbooks.spells.eldritch.AbstractEldritchSpell;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.entity.EldritchClone;
 import net.alshanex.equinox.fame.UmbrakithFameProvider;
@@ -20,18 +16,16 @@ import net.alshanex.equinox.util.EUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -86,7 +80,7 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(SoundRegistry.VOID_TENTACLES_FINISH.get());
+        return Optional.of(SoundEvents.SCULK_SHRIEKER_SHRIEK);
     }
 
     @Override
@@ -99,7 +93,8 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
                 });
             }
         }
-        if(umbrakithFame.get() >= 900){ return true;}
+        //if(umbrakithFame.get() >= 900){ return true;}
+        if(umbrakithFame.get() >= 0){ return true;}
         if(entity instanceof ServerPlayer player){
             player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.equinox.cant_cast_spell_fame").withStyle(ChatFormatting.RED)));
         }
