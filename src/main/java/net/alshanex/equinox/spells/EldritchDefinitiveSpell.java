@@ -39,6 +39,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -121,19 +122,22 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
 
     private void summonWardens(Level level, LivingEntity entity, BlockPos center){
         level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true) && (target instanceof Mob || target instanceof ServerPlayer)).forEach(target -> {
-            if (target.distanceToSqr(entity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, entity)) {
-                Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
-                Vec3 spawn = entity.position().add(randomOffset);
+            List<EldritchClone> totalCloneList = entity.level().getEntitiesOfClass(EldritchClone.class, entity.getBoundingBox().inflate(20, 10, 20), (clone) -> clone.getSummoner() != null && clone.getSummoner() == entity).stream().toList();
+            if(totalCloneList.size() <= 5){
+                if (target.distanceToSqr(entity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, entity)) {
+                    Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
+                    Vec3 spawn = entity.position().add(randomOffset);
 
-                spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
-                if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
-                    EldritchClone clone = new EldritchClone(level, entity, target);
+                    spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
+                    if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {
+                        EldritchClone clone = new EldritchClone(level, entity, target);
 
-                    clone.setPos(spawn.x, spawn.y, spawn.z);
-                    clone.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(center), MobSpawnType.TRIGGERED, null, null);
-                    level.addFreshEntity(clone);
-                    clone.getAngerManagement().increaseAnger(target, 150);
-                    clone.setAttackTarget(target);
+                        clone.setPos(spawn.x, spawn.y, spawn.z);
+                        clone.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(center), MobSpawnType.TRIGGERED, null, null);
+                        level.addFreshEntity(clone);
+                        clone.getAngerManagement().increaseAnger(target, 150);
+                        clone.setAttackTarget(target);
+                    }
                 }
             }
         });

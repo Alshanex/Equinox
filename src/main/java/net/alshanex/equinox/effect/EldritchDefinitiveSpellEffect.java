@@ -57,19 +57,22 @@ public class EldritchDefinitiveSpellEffect extends MagicMobEffect {
     private void spawnAnotherClone(LivingEntity pLivingEntity){
         pLivingEntity.level().getEntitiesOfClass(LivingEntity.class, pLivingEntity.getBoundingBox().inflate(10, 5, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, pLivingEntity) && Utils.hasLineOfSight(pLivingEntity.level(), pLivingEntity, target, true) && (target instanceof Mob || target instanceof ServerPlayer)).forEach(target -> {
             List<EldritchClone> cloneList = pLivingEntity.level().getEntitiesOfClass(EldritchClone.class, pLivingEntity.getBoundingBox().inflate(20, 10, 20), (clone) -> clone.getSummoner() != null && clone.getSummoner() == pLivingEntity && clone.getCachedTarget() != null && clone.getCachedTarget() == target).stream().toList();
-            if(cloneList.isEmpty()){
-                Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
-                Vec3 spawn = pLivingEntity.position().add(randomOffset);
+            List<EldritchClone> totalCloneList = pLivingEntity.level().getEntitiesOfClass(EldritchClone.class, pLivingEntity.getBoundingBox().inflate(20, 10, 20), (clone) -> clone.getSummoner() != null && clone.getSummoner() == pLivingEntity).stream().toList();
+            if(cloneList.isEmpty() && totalCloneList.size() <= 5){
+                if (target.distanceToSqr(pLivingEntity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, pLivingEntity)) {
+                    Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
+                    Vec3 spawn = pLivingEntity.position().add(randomOffset);
 
-                spawn = Utils.moveToRelativeGroundLevel(pLivingEntity.level(), spawn, 8);
-                if (!pLivingEntity.level().getBlockState(BlockPos.containing(spawn).below()).isAir()) {
-                    EldritchClone clone = new EldritchClone(pLivingEntity.level(), pLivingEntity, target);
+                    spawn = Utils.moveToRelativeGroundLevel(pLivingEntity.level(), spawn, 8);
+                    if (!pLivingEntity.level().getBlockState(BlockPos.containing(spawn).below()).isAir()) {
+                        EldritchClone clone = new EldritchClone(pLivingEntity.level(), pLivingEntity, target);
 
-                    clone.setPos(spawn.x, spawn.y, spawn.z);
-                    clone.finalizeSpawn((ServerLevel) pLivingEntity.level(), pLivingEntity.level().getCurrentDifficultyAt(pLivingEntity.blockPosition()), MobSpawnType.TRIGGERED, null, null);
-                    pLivingEntity.level().addFreshEntity(clone);
-                    clone.getAngerManagement().increaseAnger(target, 150);
-                    clone.setAttackTarget(target);
+                        clone.setPos(spawn.x, spawn.y, spawn.z);
+                        clone.finalizeSpawn((ServerLevel) pLivingEntity.level(), pLivingEntity.level().getCurrentDifficultyAt(pLivingEntity.blockPosition()), MobSpawnType.TRIGGERED, null, null);
+                        pLivingEntity.level().addFreshEntity(clone);
+                        clone.getAngerManagement().increaseAnger(target, 150);
+                        clone.setAttackTarget(target);
+                    }
                 }
             }
         });
