@@ -228,6 +228,21 @@ public class EUtils {
         return (float) ((8 + 3 * (spellLevel - 1)) * entitySpellPowerModifier * entitySchoolPowerModifier * configPowerModifier);
     }
 
+    public static float getFireboltSpellPower(int spellLevel, @Nullable Entity sourceEntity) {
+
+        double entitySpellPowerModifier = 1;
+        double entitySchoolPowerModifier = 1;
+
+        float configPowerModifier = (float) ServerConfigs.getSpellConfig(net.alshanex.equinox.registry.SpellRegistry.BOUNCING_FIREBOLT.get()).powerMultiplier();
+
+        if (sourceEntity instanceof LivingEntity livingEntity) {
+            entitySpellPowerModifier = (float) livingEntity.getAttributeValue(AttributeRegistry.SPELL_POWER.get());
+            entitySchoolPowerModifier = SpellRegistry.SCULK_TENTACLES_SPELL.get().getSchoolType().getPowerFor(livingEntity);
+        }
+
+        return (float) ((12 + (spellLevel - 1)) * entitySpellPowerModifier * entitySchoolPowerModifier * configPowerModifier);
+    }
+
     public static Vec3 getRandomPositionWithinRadius(double radius) {
         double angle = Math.random() * 2 * Math.PI;
         double distance = Math.random() * radius;

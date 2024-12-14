@@ -1,5 +1,6 @@
 package net.alshanex.equinox.setup;
 
+import io.redspace.ironsspellbooks.entity.spells.firebolt.FireboltRenderer;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.entity.EldritchCloneRenderer;
 import net.alshanex.equinox.registry.EntityRegistry;
@@ -13,5 +14,6 @@ public class ClientSetup {
     @SubscribeEvent
     public static void rendererRegister(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityRegistry.ELDRITCH_CLONE.get(), EldritchCloneRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBOLT.get(), FireboltRenderer::new);
     }
 }

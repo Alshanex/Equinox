@@ -2,6 +2,7 @@ package net.alshanex.equinox.registry;
 
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.alshanex.equinox.EquinoxMod;
+import net.alshanex.equinox.spells.BouncingFireboltSpell;
 import net.alshanex.equinox.spells.EldritchDefinitiveSpell;
 import net.alshanex.equinox.spells.RitualSpell;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,4 +21,5 @@ public class SpellRegistry {
 
     public static final RegistryObject<AbstractSpell> RITUAL = registerSpell(new RitualSpell());
     public static final RegistryObject<AbstractSpell> ELDRITCH_DEFINITIVE = registerSpell(new EldritchDefinitiveSpell());
+    public static final RegistryObject<AbstractSpell> BOUNCING_FIREBOLT = registerSpell(new BouncingFireboltSpell());
 }
