@@ -97,6 +97,13 @@ public class EldritchClone extends Warden implements MagicSummon {
                 MagicManager.spawnParticles(level(), ParticleTypes.POOF, getX(), getY(), getZ(), 25, .4, .8, .4, .03, false);
                 discard();
             }
+        } else {
+            if(getCachedTarget().getType() == EntityRegistry.ELDRITCH_CLONE.get() || !getCachedTarget().isAlive()){
+                if (!level().isClientSide) {
+                    MagicManager.spawnParticles(level(), ParticleTypes.POOF, getX(), getY(), getZ(), 25, .4, .8, .4, .03, false);
+                    discard();
+                }
+            }
         }
 
         if (getSummoner() != null && getSummoner().hasEffect(EffectRegistry.ELDRITCH_DEFINITIVE.get())) {

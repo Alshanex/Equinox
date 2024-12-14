@@ -204,7 +204,7 @@ public class EUtils {
         Set<Block> excludedBlocks = new HashSet<>();
 
         for (Block block : ForgeRegistries.BLOCKS) {
-            if (block instanceof TorchBlock || block instanceof CarpetBlock
+            if (block instanceof TorchBlock || block instanceof CarpetBlock || block instanceof SnowLayerBlock
                     || block instanceof BushBlock || block instanceof TallGrassBlock || block instanceof GlowLichenBlock) {
                 excludedBlocks.add(block);
             }

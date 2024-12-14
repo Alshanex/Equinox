@@ -11,10 +11,12 @@ import net.alshanex.equinox.util.EUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
@@ -53,7 +55,7 @@ public class EldritchDefinitiveSpellEffect extends MagicMobEffect {
     }
 
     private void spawnAnotherClone(LivingEntity pLivingEntity){
-        pLivingEntity.level().getEntitiesOfClass(LivingEntity.class, pLivingEntity.getBoundingBox().inflate(10, 5, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, pLivingEntity) && Utils.hasLineOfSight(pLivingEntity.level(), pLivingEntity, target, true) && target.getType().getCategory() != MobCategory.MISC).forEach(target -> {
+        pLivingEntity.level().getEntitiesOfClass(LivingEntity.class, pLivingEntity.getBoundingBox().inflate(10, 5, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, pLivingEntity) && Utils.hasLineOfSight(pLivingEntity.level(), pLivingEntity, target, true) && (target instanceof Mob || target instanceof ServerPlayer)).forEach(target -> {
             List<EldritchClone> cloneList = pLivingEntity.level().getEntitiesOfClass(EldritchClone.class, pLivingEntity.getBoundingBox().inflate(20, 10, 20), (clone) -> clone.getSummoner() != null && clone.getSummoner() == pLivingEntity && clone.getCachedTarget() != null && clone.getCachedTarget() == target).stream().toList();
             if(cloneList.isEmpty()){
                 Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);

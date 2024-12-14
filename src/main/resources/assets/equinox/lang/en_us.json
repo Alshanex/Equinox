@@ -21,10 +21,16 @@
   "item.equinox.plasmatic_orb": "Plasmatic Orb",
   "item.equinox.empty_orb": "Empty Orb",
 
+  "entity.equinox.eldritch_clone": "Nightmare",
+
   "curios.identifier.orb": "Orb",
   "curios.modifiers.orb": "When equipped as Orb:",
 
   "spell.equinox.orb_ritual": "Ritual Casting",
+  "spell.equinox.definitive_eldritch_spell": "Call of the Abyss",
 
-  "spell.equinox.orb_ritual.guide": "This spell allows you to perform an ancient ritual alongside some pedestals to transform items in other different ones."
+  "spell.equinox.orb_ritual.guide": "This spell allows you to perform an ancient ritual alongside some pedestals to transform items in other different ones.",
+  "spell.equinox.definitive_eldritch_spell.guide": "Use your high influence in the Umbrakith Faction to take over a piece of the surface, covering it with sculk and summoning the Nightmares. Nightmares will pursue the enemy and if they manage to catch their prey, the forces of the abyss will reclaim his soul.",
+
+  "effect.equinox.eldritch_definitive": "Call of the Abyss"
 }

@@ -4,6 +4,7 @@ import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
+import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
@@ -13,6 +14,7 @@ import net.alshanex.equinox.fame.UmbrakithFameProvider;
 import net.alshanex.equinox.item.ModItems;
 import net.alshanex.equinox.registry.EffectRegistry;
 import net.alshanex.equinox.util.EUtils;
+import net.alshanex.equinox.util.SpellCastAnimator;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,6 +27,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
@@ -94,8 +97,7 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
                 });
             }
         }
-        //if(umbrakithFame.get() >= 900){ return true;}
-        if(umbrakithFame.get() >= 0){ return true;}
+        if(umbrakithFame.get() >= 900){ return true;}
         if(entity instanceof ServerPlayer player){
             player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("ui.equinox.cant_cast_spell_fame").withStyle(ChatFormatting.RED)));
         }
@@ -118,7 +120,7 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
     }
 
     private void summonWardens(Level level, LivingEntity entity, BlockPos center){
-        level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true) && target.getType().getCategory() != MobCategory.MISC).forEach(target -> {
+        level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true) && (target instanceof Mob || target instanceof ServerPlayer)).forEach(target -> {
             if (target.distanceToSqr(entity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, entity)) {
                 Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
                 Vec3 spawn = entity.position().add(randomOffset);
@@ -171,5 +173,10 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
                 }
             }
         }
+    }
+
+    @Override
+    public AnimationHolder getCastStartAnimation() {
+        return SpellCastAnimator.SHRIEK_ANIMATION;
     }
 }
