@@ -25,6 +25,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -117,10 +118,10 @@ public class EldritchDefinitiveSpell extends AbstractSpell {
     }
 
     private void summonWardens(Level level, LivingEntity entity, BlockPos center){
-        level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true)).forEach(target -> {
+        level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10, 4, 10), (target) -> !DamageSources.isFriendlyFireBetween(target, entity) && Utils.hasLineOfSight(level, entity, target, true) && target.getType().getCategory() != MobCategory.MISC).forEach(target -> {
             if (target.distanceToSqr(entity) < 10 * 10 && !DamageSources.isFriendlyFireBetween(target, entity)) {
-                Vec3 random = new Vec3(Utils.getRandomScaled(1), Utils.getRandomScaled(1), Utils.getRandomScaled(1));
-                Vec3 spawn = entity.position().add(new Vec3(0, 0, 1.3).yRot(((6.281f / 5) * 5))).add(random);
+                Vec3 randomOffset = EUtils.getRandomPositionWithinRadius(10);
+                Vec3 spawn = entity.position().add(randomOffset);
 
                 spawn = Utils.moveToRelativeGroundLevel(level, spawn, 8);
                 if (!level.getBlockState(BlockPos.containing(spawn).below()).isAir()) {

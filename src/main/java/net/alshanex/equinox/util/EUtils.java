@@ -227,4 +227,12 @@ public class EUtils {
 
         return (float) ((8 + 3 * (spellLevel - 1)) * entitySpellPowerModifier * entitySchoolPowerModifier * configPowerModifier);
     }
+
+    public static Vec3 getRandomPositionWithinRadius(double radius) {
+        double angle = Math.random() * 2 * Math.PI;
+        double distance = Math.random() * radius;
+        double x = distance * Math.cos(angle);
+        double z = distance * Math.sin(angle);
+        return new Vec3(x, 0, z);
+    }
 }
