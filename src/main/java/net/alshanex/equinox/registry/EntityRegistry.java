@@ -1,9 +1,7 @@
 package net.alshanex.equinox.registry;
 
 import net.alshanex.equinox.EquinoxMod;
-import net.alshanex.equinox.entity.BouncingFirebolt;
-import net.alshanex.equinox.entity.EldritchClone;
-import net.alshanex.equinox.entity.MiniGhast;
+import net.alshanex.equinox.entity.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -37,4 +35,16 @@ public class EntityRegistry {
                     .sized(1.0F, 1.0F) // Tamaño de 1x1 bloque
                     .build(new ResourceLocation(EquinoxMod.MODID, "mini_ghast").toString())
     );
+
+    public static final RegistryObject<EntityType<BloodBrotherEntity>> BLOOD_BROTHER =
+            ENTITIES.register("blood_brother", () -> EntityType.Builder.<BloodBrotherEntity>of(BloodBrotherEntity::new, MobCategory.MONSTER)
+                    .sized(.6f, 1.8f)
+                    .clientTrackingRange(64)
+                    .build(new ResourceLocation(EquinoxMod.MODID, "blood_brother").toString()));
+
+    public static final RegistryObject<EntityType<PoisonBrotherEntity>> POISON_BROTHER =
+            ENTITIES.register("poison_brother", () -> EntityType.Builder.<PoisonBrotherEntity>of(PoisonBrotherEntity::new, MobCategory.MONSTER)
+                    .sized(.6f, 1.8f)
+                    .clientTrackingRange(64)
+                    .build(new ResourceLocation(EquinoxMod.MODID, "poison_brother").toString()));
 }

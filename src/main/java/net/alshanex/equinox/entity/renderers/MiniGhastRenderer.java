@@ -1,4 +1,4 @@
-package net.alshanex.equinox.entity;
+package net.alshanex.equinox.entity.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

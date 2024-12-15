@@ -1,6 +1,7 @@
-package net.alshanex.equinox.entity;
+package net.alshanex.equinox.entity.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.alshanex.equinox.entity.EldritchClone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayers;
