@@ -85,7 +85,7 @@ public class FallenBrothersSpell extends AbstractSpell {
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        int summonTime = 20 * 60 * 2;
+        int summonTime = 20 * 60;
         float radius = 1.5f + .185f * spellLevel;
         for (int i = 0; i < spellLevel; i++) {
             PoisonBrotherEntity poisonBrother = new PoisonBrotherEntity(world, entity, true);
@@ -97,7 +97,7 @@ public class FallenBrothersSpell extends AbstractSpell {
             var yrot = 6.281f / spellLevel * i + entity.getYRot() * Mth.DEG_TO_RAD;
             Vec3 spawn = Utils.moveToRelativeGroundLevel(world, entity.getEyePosition().add(new Vec3(radius * Mth.cos(yrot), 0, radius * Mth.sin(yrot))), 10);
             poisonBrother.setPos(spawn.x, spawn.y, spawn.z);
-            bloodBrother.setPos(-spawn.x, spawn.y, -spawn.z);
+            bloodBrother.setPos(spawn.x + 5, spawn.y, spawn.z + 5);
             poisonBrother.setYRot(entity.getYRot());
             bloodBrother.setYRot(entity.getYRot());
             poisonBrother.setOldPosAndRot();

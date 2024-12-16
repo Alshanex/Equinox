@@ -11,6 +11,7 @@ import io.redspace.ironsspellbooks.config.ServerConfigs;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
+import io.redspace.ironsspellbooks.entity.mobs.MagicSummon;
 import io.redspace.ironsspellbooks.entity.spells.HealingAoe;
 import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
 import io.redspace.ironsspellbooks.entity.spells.void_tentacle.VoidTentacle;
@@ -331,6 +332,14 @@ public class ServerEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event){
         if(event.getEntity() != null){
+            if(event.getEntity().getType() == EntityRegistry.POISON_BROTHER.get() || event.getEntity().getType() == EntityRegistry.BLOOD_BROTHER.get()){
+                LivingEntity summoner = ((MagicSummon) event.getEntity()).getSummoner();
+                if(summoner != null && summoner.getHealth() > (summoner.getMaxHealth() * .25f)){
+                    event.setCanceled(true);
+                    event.getEntity().setHealth(event.getEntity().getMaxHealth());
+                    summoner.setHealth(summoner.getHealth() - (summoner.getMaxHealth() * .25f));
+                }
+            }
             if(event.getEntity() instanceof ServerPlayer player){
                 if(EUtils.hasItemInOrbSlot(player, ModItems.BLESSED_ORB.get())){
                     player.getCapability(CelestialFameProvider.CELESTIAL_FAME).ifPresent(fame -> {
