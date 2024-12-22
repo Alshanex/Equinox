@@ -1,5 +1,6 @@
 package net.alshanex.equinox.entity;
 
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
@@ -26,6 +27,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
@@ -59,9 +62,11 @@ public class BloodBrotherEntity extends NeutralWizard implements IAnimatedAttack
         this.moveControl = createMoveControl();
     }
 
-    public BloodBrotherEntity(Level level, LivingEntity owner, boolean playRiseAnimation) {
+    public BloodBrotherEntity(Level level, LivingEntity owner) {
         this(EntityRegistry.BLOOD_BROTHER.get(), level);
         setSummoner(owner);
+        copyAttribute(AttributeRegistry.BLOOD_SPELL_POWER.get());
+        copyAttribute(AttributeRegistry.SPELL_POWER.get());
     }
 
     protected LivingEntity cachedSummoner;
@@ -222,6 +227,23 @@ public class BloodBrotherEntity extends NeutralWizard implements IAnimatedAttack
         if (owner != null) {
             this.summonerUUID = owner.getUUID();
             this.cachedSummoner = owner;
+        }
+    }
+
+    private void copyAttribute(net.minecraft.world.entity.ai.attributes.Attribute attribute) {
+        AttributeInstance sourceAttribute = this.getSummoner().getAttribute(attribute);
+        AttributeInstance targetAttribute = this.getAttribute(attribute);
+
+        if (sourceAttribute != null && targetAttribute != null) {
+            targetAttribute.setBaseValue(sourceAttribute.getBaseValue());
+
+            for (AttributeModifier modifier : targetAttribute.getModifiers()) {
+                targetAttribute.removeModifier(modifier);
+            }
+
+            for (AttributeModifier modifier : sourceAttribute.getModifiers()) {
+                targetAttribute.addPermanentModifier(modifier);
+            }
         }
     }
 

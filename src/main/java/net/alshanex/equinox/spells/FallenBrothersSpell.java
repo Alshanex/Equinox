@@ -88,8 +88,8 @@ public class FallenBrothersSpell extends AbstractSpell {
         int summonTime = 20 * 60;
         float radius = 1.5f + .185f * spellLevel;
         for (int i = 0; i < spellLevel; i++) {
-            PoisonBrotherEntity poisonBrother = new PoisonBrotherEntity(world, entity, true);
-            BloodBrotherEntity bloodBrother = new BloodBrotherEntity(world, entity, true);
+            PoisonBrotherEntity poisonBrother = new PoisonBrotherEntity(world, entity);
+            BloodBrotherEntity bloodBrother = new BloodBrotherEntity(world, entity);
             poisonBrother.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(poisonBrother.getOnPos()), MobSpawnType.MOB_SUMMONED, null, null);
             bloodBrother.finalizeSpawn((ServerLevel) world, world.getCurrentDifficultyAt(bloodBrother.getOnPos()), MobSpawnType.MOB_SUMMONED, null, null);
             poisonBrother.addEffect(new MobEffectInstance(MobEffectRegistry.RAISE_DEAD_TIMER.get(), summonTime, 0, false, false, false));
