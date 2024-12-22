@@ -28,11 +28,11 @@
 
   "spell.equinox.orb_ritual": "Ritual Casting",
   "spell.equinox.definitive_eldritch_spell": "Call of the Abyss",
+  "spell.equinox.fallen_brothers": "The Fallen Brothers",
 
   "spell.equinox.orb_ritual.guide": "This spell allows you to perform an ancient ritual alongside some pedestals to transform items in other different ones.",
   "spell.equinox.definitive_eldritch_spell.guide": "Use your high influence in the Umbrakith Faction to take over a piece of the surface, covering it with sculk and summoning the Nightmares. Nightmares will pursue the enemy and if they manage to catch their prey, the forces of the abyss will reclaim his soul.",
-  "effect.equinox.fallen_brothers.guide": "Use your high influence in the Fallen Faction to call the Fallen Brothers. The first brother is an expert of venom, meanwhile the other mastered the blood arts. Their bodies are connected to yours, so if they die you will get damage instead, but only if you have enough life to tank the recoil.",
+  "spell.equinox.fallen_brothers.guide": "Use your high influence in the Fallen Faction to call the Fallen Brothers. The first brother is an expert of venom, meanwhile the other mastered the blood arts. Their bodies are connected to yours, so if they die you will get damage instead, but only if you have enough life to tank the recoil.",
 
-  "effect.equinox.eldritch_definitive": "Call of the Abyss",
-  "effect.equinox.fallen_brothers": "The Fallen Brothers"
+  "effect.equinox.eldritch_definitive": "Call of the Abyss"
 }
