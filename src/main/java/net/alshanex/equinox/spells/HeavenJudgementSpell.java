@@ -9,12 +9,14 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.capabilities.magic.TargetEntityCastData;
 import io.redspace.ironsspellbooks.entity.spells.guiding_bolt.GuidingBoltProjectile;
+import io.redspace.ironsspellbooks.registries.ParticleRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.setup.Messages;
 import io.redspace.ironsspellbooks.util.ModTags;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.alshanex.equinox.EquinoxMod;
 import net.alshanex.equinox.entity.LightRootEntity;
+import net.alshanex.equinox.util.CylinderParticleManager;
 import net.alshanex.equinox.util.SpellCastAnimator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -41,7 +43,9 @@ public class HeavenJudgementSpell extends AbstractSpell {
     private int i = 0;
     private float radius;
     private List<GuidingBoltProjectile> bolts;
+    private List<BlockPos> positions;
     private boolean spawned = false;
+    private LivingEntity target;
 
     private final ResourceLocation spellId = new ResourceLocation(EquinoxMod.MODID, "heaven_judgement");
 
@@ -109,10 +113,11 @@ public class HeavenJudgementSpell extends AbstractSpell {
 
     @Override
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        if (playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData castTargetingData) {
+        if (!spawned && playerMagicData.getAdditionalCastData() instanceof TargetEntityCastData castTargetingData) {
             LivingEntity target = castTargetingData.getTarget((ServerLevel) world);
-            if (target != null && !target.getType().is(ModTags.CANT_ROOT) && !spawned) {
+            if (target != null && !target.getType().is(ModTags.CANT_ROOT)) {
                 spawned = true;
+                this.target = target;
                 Vec3 spawn = target.position();
                 LightRootEntity rootEntity = new LightRootEntity(world, entity);
                 rootEntity.setDuration(getCastTime(spellLevel));
@@ -123,15 +128,9 @@ public class HeavenJudgementSpell extends AbstractSpell {
                 target.startRiding(rootEntity, true);
 
                 bolts = new ArrayList<>();
+                positions = new ArrayList<>();
                 radius = Math.max(4f, target.getBbWidth() / 2 + 1f);
-                List<BlockPos> positions = getCircleEdgePositions(target.blockPosition(), radius);
-                for(BlockPos pos : positions){
-                    GuidingBoltProjectile guidingBolt = new GuidingBoltProjectile(world, entity);
-                    bolts.add(guidingBolt);
-                    guidingBolt.setPos(pos.getCenter());
-                    guidingBolt.setDamage(0);
-                    world.addFreshEntity(guidingBolt);
-                }
+                positions = getCircleEdgePositions(target.blockPosition(), radius);
             }
         }
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
@@ -139,11 +138,17 @@ public class HeavenJudgementSpell extends AbstractSpell {
 
     @Override
     public void onServerCastTick(Level level, int spellLevel, LivingEntity entity, @Nullable MagicData playerMagicData) {
+        if (playerMagicData != null && (playerMagicData.getCastDurationRemaining() + 1) % 10 == 0 && target != null) {
+            CylinderParticleManager.spawnParticles(level, target, 150, ParticleRegistry.WISP_PARTICLE.get(), CylinderParticleManager.ParticleDirection.UPWARD, radius + 1f, 1, 0);
+        }
+
         if (playerMagicData != null && (playerMagicData.getCastDurationRemaining() + 1) % 20 == 0) {
-            GuidingBoltProjectile bolt = bolts.get(i);
-            level.playSound(null, bolt.getX(), bolt.getY(), bolt.getZ(), SoundRegistry.GUIDING_BOLT_IMPACT.get(), SoundSource.PLAYERS, 2, Utils.random.nextIntBetweenInclusive(8, 12) * .1f);
-            MagicManager.spawnParticles(level, ParticleHelper.WISP, bolt.getX(), bolt.getY(), bolt.getZ(), 25, 0, 0, 0, .18, true);
-            bolt.discard();
+            BlockPos pos = positions.get(i);
+            GuidingBoltProjectile guidingBolt = new GuidingBoltProjectile(level, entity);
+            bolts.add(guidingBolt);
+            guidingBolt.setPos(pos.getCenter());
+            guidingBolt.setDamage(0);
+            level.addFreshEntity(guidingBolt);
             i++;
         }
     }
@@ -151,10 +156,15 @@ public class HeavenJudgementSpell extends AbstractSpell {
     @Override
     public void onServerCastComplete(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData, boolean cancelled) {
         for(GuidingBoltProjectile bolt : bolts){
+            level.playSound(null, bolt.getX(), bolt.getY(), bolt.getZ(), SoundRegistry.GUIDING_BOLT_IMPACT.get(), SoundSource.PLAYERS, 2, Utils.random.nextIntBetweenInclusive(8, 12) * .1f);
+            MagicManager.spawnParticles(level, ParticleHelper.WISP, bolt.getX(), bolt.getY(), bolt.getZ(), 25, 0, 0, 0, .18, true);
+
             bolt.discard();
         }
+        target = null;
         spawned = false;
         bolts.clear();
+        positions.clear();
         i = 0;
         radius = 0;
         super.onServerCastComplete(level, spellLevel, entity, playerMagicData, cancelled);
