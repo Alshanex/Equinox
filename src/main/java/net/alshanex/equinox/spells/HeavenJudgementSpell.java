@@ -117,20 +117,19 @@ public class HeavenJudgementSpell extends AbstractSpell {
             LivingEntity target = castTargetingData.getTarget((ServerLevel) world);
             if (target != null && !target.getType().is(ModTags.CANT_ROOT)) {
                 spawned = true;
+                bolts = new ArrayList<>();
+                positions = new ArrayList<>();
+                radius = Math.max(4f, target.getBbWidth() / 2 + 1f);
+                positions = getCircleEdgePositions(target.blockPosition(), radius);
                 this.target = target;
                 Vec3 spawn = target.position();
-                LightRootEntity rootEntity = new LightRootEntity(world, entity);
+                LightRootEntity rootEntity = new LightRootEntity(world, entity, radius);
                 rootEntity.setDuration(getCastTime(spellLevel));
                 rootEntity.setTarget(target);
                 rootEntity.moveTo(spawn);
                 world.addFreshEntity(rootEntity);
                 target.stopRiding();
                 target.startRiding(rootEntity, true);
-
-                bolts = new ArrayList<>();
-                positions = new ArrayList<>();
-                radius = Math.max(4f, target.getBbWidth() / 2 + 1f);
-                positions = getCircleEdgePositions(target.blockPosition(), radius);
             }
         }
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
