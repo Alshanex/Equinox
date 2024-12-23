@@ -8,4 +8,5 @@ public class SpellCastAnimator {
     public static ResourceLocation ANIMATION_RESOURCE = new ResourceLocation(EquinoxMod.MODID, "animation");
 
     public static final AnimationHolder SHRIEK_ANIMATION = new AnimationHolder("equinox:shriek_animation", false, true);
+    public static final AnimationHolder PRAY_ANIMATION = new AnimationHolder("equinox:pray_animation", false, false);
 }

@@ -1,0 +1,43 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"pray_animation": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 8,
+			"bones": {
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [-125.36082, -8.86042, 4.65468],
+							"easing": "easeOutExpo"
+						},
+						"3.0": {
+							"vector": [-57.86082, -8.86042, 4.65468]
+						},
+						"4.0": {
+							"vector": [-90.37625, 18.63904, 4.47885],
+							"easing": "easeOutExpo"
+						},
+						"6.0": {
+							"vector": [-90.41751, -31.35991, 4.81639]
+						},
+						"7.5": {
+							"vector": [-170.35733, -3.86052, 4.62316],
+							"easing": "easeOutExpo"
+						},
+						"8.0": {
+							"vector": [-30.35733, -3.86052, 4.62316],
+							"easing": "easeOutExpo"
+						}
+					},
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

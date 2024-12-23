@@ -47,4 +47,10 @@ public class EntityRegistry {
                     .sized(.6f, 1.8f)
                     .clientTrackingRange(64)
                     .build(new ResourceLocation(EquinoxMod.MODID, "poison_brother").toString()));
+
+    public static final RegistryObject<EntityType<LightRootEntity>> LIGHT_ROOT =
+            ENTITIES.register("light_root", () -> EntityType.Builder.<LightRootEntity>of(LightRootEntity::new, MobCategory.MISC)
+                    .sized(1, 1)
+                    .clientTrackingRange(64)
+                    .build(new ResourceLocation(EquinoxMod.MODID, "light_root").toString()));
 }
